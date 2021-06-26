@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.4.21253.5" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BlazorApp.Data.Models\BlazorApp.Data.Models.csproj" />
+    <ProjectReference Include="..\..\BlazorApp.UI.Library\BlazorApp.UI.Library.csproj" />
+    <ProjectReference Include="..\Shared\BlazorApp.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

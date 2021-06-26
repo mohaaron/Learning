@@ -1,0 +1,134 @@
+﻿<h1>Budget for month @title</h1>
+
+<div class="container row-cell-bg">
+<div class="row">
+  <div class="col-auto"><button class="form-control" @onclick="(() => AddExpense())">Add Expense</button></div>
+  <div class="col-auto"><button class="form-control" @onclick="(() => DeleteExpense())">Delete Expense</button></div>
+</div>
+  <div class="row">
+    <div class="col-auto"><input type="checkbox" disabled="disabled"/></div>
+    <div class="col-3"><b>Expense</b></div>
+    <div class="col-2"><b>Cost</b></div>
+    <div class="col-2"><b>Due Date</b></div>
+    <div class="col"><b>Notes</b></div>
+  </div>
+
+  @foreach (var expense in Budget.Expenses)
+  {
+    <div class="row">
+      <div class="col-auto"><input type="checkbox" id="delete-@expense.Id" @onchange="(e) => ExpenseCheckChanged(e, expense.Id)" /></div>
+      <div class="col-3"><a href="javascript:void(0)" @onclick="@(() => EditExpenseForm(expense))">@expense.ExpenseName</a></div>
+      <div class="col-2">@expense.Cost.ToString("C")</div>
+      <div class="col-2">@expense.DueDate</div>
+      <div class="col">@expense.Notes</div>
+    </div>
+  }
+
+  <div class="row">
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-3"><b>Expenses</b></div>
+    <div class="col-2"><b>@Budget.GetTotalExpenses.ToString("C")</b></div>
+    <div class="col-2"></div>
+    <div class="col"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">Paycheck(s)</div>
+    <div class="col-2">@Budget.GetTotalIncome.ToString("C")</div>
+    <div class="col-2">&nbsp;</div>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">Savings</div>
+    <div class="col-2">$000.00</div>
+    <div class="col-2">&nbsp;</div>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">Left Over</div>
+    <div class="col-2">$000.00</div>
+    <div class="col-2">&nbsp;</div>
+    <div class="col">&nbsp;</div>
+  </div>
+</div>
+
+@code {
+    [Parameter]
+    public Budget Budget { get; set; }
+
+    [Parameter]
+    public EventCallback<Expense> AddExpenseCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<Expense> EditExpenseCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<HashSet<int>> DeleteExpenseCallback { get; set; }
+
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
+    private string title { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+      title = Budget.YearMonth.ToString().Insert(4, "-");
+
+      return base.OnInitializedAsync();
+    }
+
+    async Task AddExpense()
+    {
+        var form = Modal.Show<ExpenseForm>("Add Expense");
+
+        var result = await form.Result;
+        if (!result.Cancelled)
+        {
+            var expense = (Expense)result.Data;
+            await AddExpenseCallback.InvokeAsync(expense); // Send expense object to subscribers
+        }
+    }
+
+    async Task EditExpenseForm(Expense expense)
+    {
+      var parameters = new ModalParameters();
+      parameters.Add("Expense", expense);
+      var form = Modal.Show<ExpenseForm>("Edit Expense", parameters);
+
+      var result = await form.Result;
+      if (!result.Cancelled)
+      {
+        await EditExpenseCallback.InvokeAsync(expense); // Send expense object to subscribers
+      }
+    }
+
+    HashSet<int> expensesToDelete = new HashSet<int>();
+
+    void ExpenseCheckChanged(ChangeEventArgs e, int id)
+    {
+        if (expensesToDelete.Contains(id))
+          expensesToDelete.Remove(id);
+        else
+          expensesToDelete.Add(id);
+        
+    }
+
+    async Task DeleteExpense()
+    {
+        if (expensesToDelete.Count > 0)
+        {
+            foreach(int id in expensesToDelete)
+            {
+                var expense = Budget.Expenses.SingleOrDefault(e => e.Id == id);
+                Budget.Expenses.Remove(expense);
+            }
+
+            await DeleteExpenseCallback.InvokeAsync(expensesToDelete);
+        }
+    }
+}

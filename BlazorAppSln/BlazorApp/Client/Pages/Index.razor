@@ -1,0 +1,49 @@
+﻿@page "/"
+@using BlazorApp.Client.Components
+@using BlazorApp.UI.Library
+@inject HttpClient httpClient
+
+@if (budget is null)
+{
+    <div><p>Loading...</p></div>
+}
+else
+{
+    <MonthlyBudget Budget="@budget" AddExpenseCallback="@AddExpenseClick" EditExpenseCallback="@EditExpenseClick" />
+}
+
+@code {
+    private Budget budget;
+
+    protected override async Task OnInitializedAsync()
+    {
+      int pk = int.Parse(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString());
+      budget = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + pk);
+
+      //return await base.OnInitializedAsync();
+    }
+
+    private async Task AddExpenseClick(Expense expense)
+    {
+        await Task.Delay(200);
+
+      budget.Expenses.Add(expense);
+
+      //   HttpResponseMessage resp = await httpClient.PostAsJsonAsync<Expense>("api/Expense", expense);
+      //   if (resp.StatusCode == System.Net.HttpStatusCode.OK)
+      //{
+      //     // Saved, update Budget parameter
+      //}
+    }
+
+    private async Task EditExpenseClick(Expense expense)
+    {
+        await Task.Delay(200);
+
+      //   HttpResponseMessage resp = await httpClient.PostAsJsonAsync<Expense>("api/Expense/1", expense);
+      //   if (resp.StatusCode == System.Net.HttpStatusCode.OK)
+      //{
+      //     // Saved, update Budget parameter
+      //}
+    }
+}

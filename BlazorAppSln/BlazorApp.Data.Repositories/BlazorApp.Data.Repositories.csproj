@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorApp.Data.Repositories.Interfaces\BlazorApp.Data.Repositories.Interfaces.csproj" />
+    <ProjectReference Include="..\BlazorApp.Data\BlazorApp.Data.csproj" />
+  </ItemGroup>
+
+</Project>
