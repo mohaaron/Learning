@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BlazorApp.Data.Http.Repositories\BlazorApp.Data.Http.Repositories.csproj" />
     <ProjectReference Include="..\..\BlazorApp.Data.Models\BlazorApp.Data.Models.csproj" />
+    <ProjectReference Include="..\..\BlazorApp.Data.Repositories.Interfaces\BlazorApp.Data.Repositories.Interfaces.csproj" />
     <ProjectReference Include="..\..\BlazorApp.UI.Library\BlazorApp.UI.Library.csproj" />
     <ProjectReference Include="..\Shared\BlazorApp.Shared.csproj" />
   </ItemGroup>

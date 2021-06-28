@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -44,8 +46,14 @@ namespace BlazorApp.Server.Controllers
 
 		// PUT api/<BudgetController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public async Task<ActionResult<Budget>> Put([FromBody] Budget budget)
 		{
+			if (budget == null)
+				return BadRequest();
+
+			await repo.SaveBudget(budget);
+
+			return Ok(budget);
 		}
 
 		// DELETE api/<BudgetController>/5
