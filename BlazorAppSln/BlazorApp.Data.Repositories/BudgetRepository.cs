@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,26 @@ namespace BlazorApp.Data.Repositories
 				.Include(e => e.Expenses)
 				.Include(i => i.Incomes)
 				.SingleAsync(b => b.YearMonth == id);
+		}
+
+		public async Task<DbTaskResult> SaveBudget(Budget budget)
+		{
+			var result = new DbTaskResult();
+			await Task.CompletedTask;
+
+			context.Update(budget);
+			try
+			{
+				//await context.SaveChangesAsync();
+				result.StatusCode = HttpStatusCode.OK;
+			}
+			catch(Exception x)
+			{
+				result.StatusCode = HttpStatusCode.InternalServerError;
+				result.Message = x.Message;
+			}
+
+			return result;
 		}
 	}
 }
