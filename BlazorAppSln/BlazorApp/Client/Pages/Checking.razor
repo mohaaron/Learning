@@ -1,0 +1,13 @@
+﻿@page "/checking"
+@using BlazorApp.Client.Components.Forms
+
+<h3>Checking</h3>
+<CascadingValue Value="LinkedCheckBoxes">
+  <LinkedCheckBox /><br />
+  <LinkedCheckBox /><br />
+  <LinkedCheckBox />
+</CascadingValue>
+
+@code {
+	public List<LinkedCheckBox> LinkedCheckBoxes { get; set; } = new List<LinkedCheckBox>();
+}

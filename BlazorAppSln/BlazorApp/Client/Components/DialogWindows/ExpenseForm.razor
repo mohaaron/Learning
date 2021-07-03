@@ -38,42 +38,4 @@
   </div>
 </EditForm>
 
-@code {
-    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
-    [Parameter]
-    public Expense expense { get; set; } = new();
-
-    private Expense validate { get; set; } = new();
-
-    protected override Task OnInitializedAsync()
-    {
-      if (expense is not null)
-      {
-          // Load validation entity for edit
-          validate.Id = expense.Id;
-          validate.ExpenseName = expense.ExpenseName;
-          validate.Cost = expense.Cost;
-          validate.Notes = expense.Notes;
-      }
-
-      return base.OnInitializedAsync();
-    }
-
-    protected override Task OnParametersSetAsync()
-    {
-      return base.OnParametersSetAsync();
-    }
-
-    async Task Save()
-    {
-      expense.Id = validate.Id;
-      expense.ExpenseName = validate.ExpenseName;
-      expense.Cost = validate.Cost;
-      expense.Notes = validate.Notes;
-
-      await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(expense));
-    }
-
-    async Task Cancel() => await BlazoredModal.CancelAsync();
-}
