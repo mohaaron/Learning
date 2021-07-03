@@ -1,8 +1,9 @@
 ﻿@page "/"
 @using BlazorApp.Client.Components
 @using BlazorApp.UI.Library
-@inject IBudgetRepository repo
 
+<h1>Budget Manager Home:</h1>
+<p>Let's try this again...'</p>
 @if (budget is null)
 {
     <div><p>Loading...</p></div>
@@ -12,37 +13,3 @@ else
     <MonthlyBudget Budget="@budget" AddExpenseCallback="@AddExpenseClick" EditExpenseCallback="@EditExpenseClick" />
 }
 
-@code {
-    private Budget budget;
-
-    protected override async Task OnInitializedAsync()
-    {
-      int id = int.Parse(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString());
-        @*budget = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + pk);*@
-
-        budget = await repo.GetBudget(id);
-
-      //return await base.OnInitializedAsync();
-    }
-
-    private async Task AddExpenseClick(Expense expense)
-    {
-        budget.Expenses.Add(expense);
-      @*var result = await repo.AddExpense(expense);
-      if (result.StatusCode == HttpStatusCode.OK)
-      {
-          // Saved, now add saved expense to budget to update UI
-          budget.Expenses.Add(expense);
-      }*@
-    }
-
-    private async Task EditExpenseClick(Expense expense)
-    {
-      @*var result = await repo.SaveBudget(expense);
-      if (result.StatusCode == HttpStatusCode.OK)
-      {
-          // Saved, now add saved expense to budget to update UI
-          budget.Expenses.Add(expense);
-      }*@
-    }
-}
