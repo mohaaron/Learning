@@ -14,12 +14,13 @@ namespace BlazorApp.Data.Models
 		public int Id { get; set; }
 
 		[Required]
-		[MaxLength(400)]
+		[StringLength(200)]
 		public string ExpenseName { get; set; }
 
 		[Required]
 		public decimal Cost { get; set; }
 
+		[StringLength(800)]
 		public string Notes { get; set; }
 
 		public DateTime? DueDate { get; set; }

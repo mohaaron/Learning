@@ -17,5 +17,6 @@ namespace BlazorApp.Data
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Budget> Budget { get; set; }
         public DbSet<Income> Income { get; set; }
+        public DbSet<Debt> Debts { get; set; }
     }
 }
