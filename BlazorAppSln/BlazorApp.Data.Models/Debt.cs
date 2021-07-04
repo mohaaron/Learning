@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace BlazorApp.Data.Models
 {
 	public class Debt
 	{
-		[Key]
+		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
 		/// <summary>
@@ -29,6 +30,7 @@ namespace BlazorApp.Data.Models
 		/// <summary>
 		/// The full amount of debt owed.
 		/// </summary>
+		[Required]
 		public decimal Amount { get; set; }
 	}
 }

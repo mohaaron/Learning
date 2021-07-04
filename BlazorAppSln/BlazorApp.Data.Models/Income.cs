@@ -13,10 +13,19 @@ namespace BlazorApp.Data.Models
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
-		[Required(AllowEmptyStrings = false)]
-		public decimal Amount { get; set; }
+		[Required]
+		public decimal Amount { get; set; } = 0;
 
 		[Required(AllowEmptyStrings = false)]
+		[StringLength(200)]
 		public string Source { get; set; }
+
+		[Required]
+		public DateTime PayDate { get; set; }
+
+		/// <summary>
+		/// Allow expenses to be grouped into paychecks
+		/// </summary>
+		public ICollection<Expense> Expenses { get; set; }
 	}
 }
