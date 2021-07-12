@@ -16,12 +16,12 @@ namespace BlazorApp.Data.Models
 		[Required]
 		public decimal Amount { get; set; } = 0;
 
-		[Required(AllowEmptyStrings = false)]
+		[Required()]
 		[StringLength(200)]
 		public string Source { get; set; }
 
 		[Required]
-		public DateTime PayDate { get; set; }
+		public DateTime? PayDate { get; set; }
 
 		/// <summary>
 		/// Allow expenses to be grouped into paychecks
