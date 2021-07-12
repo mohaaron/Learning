@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,30 @@ namespace BlazorApp.Data
     {
         public BudgetContext(DbContextOptions<BudgetContext> options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            //foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            //{
+            //    foreach (var entityProperty in entityType.GetProperties())
+            //    {
+            //        if (entityProperty.ClrType == typeof(decimal)
+            //            && entityProperty.Name.Contains("Price"))
+            //        {
+            //            entityProperty.SetPrecision(9);
+            //            entityProperty.SetScale(2);
+            //        }
+
+            //        if (entityProperty.ClrType == typeof(string)
+            //            && entityProperty.Name.EndsWith("Url"))
+            //        {
+            //            entityProperty.SetIsUnicode(false);
+            //        }
+            //    }
+            //}
         }
 
         public DbSet<Expense> Expenses { get; set; }

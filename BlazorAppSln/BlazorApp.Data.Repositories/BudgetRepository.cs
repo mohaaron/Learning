@@ -21,10 +21,19 @@ namespace BlazorApp.Data.Repositories
 
 		public async Task<Budget> GetBudget(int id)
 		{
-			return await context.Budget
+			try
+			{
+				return await context.Budget
 				.Include(e => e.Expenses)
 				.Include(i => i.Incomes)
 				.SingleAsync(b => b.YearMonth == id);
+			}
+			catch(Exception x)
+			{
+				x.ToString();
+			}
+
+			return null;
 		}
 
 		public async Task<DbTaskResult> SaveBudget(Budget budget)
