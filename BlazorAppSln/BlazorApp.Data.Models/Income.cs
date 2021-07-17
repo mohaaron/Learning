@@ -28,6 +28,6 @@ namespace BlazorApp.Data.Models
 		/// <summary>
 		/// Expenses grouped into paychecks
 		/// </summary>
-		//public ICollection<Expense> Expenses { get; set; }
+		public ICollection<Expense> Expenses { get; set; }
 	}
 }
