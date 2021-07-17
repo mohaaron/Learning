@@ -30,6 +30,9 @@ namespace BlazorApp.Client.Components.DialogWindows
         [Parameter]
         public Expense expense { get; set; } = new();
         private Expense validate { get; set; } = new();
+
+        public ICollection<Income> Paychecks { get; set; }
+
         protected override Task OnInitializedAsync()
         {
             if (expense is not null)
@@ -39,6 +42,8 @@ namespace BlazorApp.Client.Components.DialogWindows
                 validate.ExpenseName = expense.ExpenseName;
                 validate.Cost = expense.Cost;
                 validate.Notes = expense.Notes;
+
+                //Paychecks = expense.Budget.Incomes;
             }
 
             return base.OnInitializedAsync();

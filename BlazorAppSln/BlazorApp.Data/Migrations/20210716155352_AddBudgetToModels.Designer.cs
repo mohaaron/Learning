@@ -3,14 +3,16 @@ using System;
 using BlazorApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlazorApp.Data.Migrations
 {
     [DbContext(typeof(BudgetContext))]
-    partial class BudgetContextModelSnapshot : ModelSnapshot
+    [Migration("20210716155352_AddBudgetToModels")]
+    partial class AddBudgetToModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +26,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Budget", (string)null);
+                    b.ToTable("Budget");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Debt", b =>
@@ -49,7 +51,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Debts", (string)null);
+                    b.ToTable("Debts");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Expense", b =>
@@ -58,7 +60,7 @@ namespace BlazorApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BudgetId")
+                    b.Property<int?>("BudgetId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Cost")
@@ -86,7 +88,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasIndex("IncomeId");
 
-                    b.ToTable("Expenses", (string)null);
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Income", b =>
@@ -115,24 +117,18 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasIndex("BudgetId");
 
-                    b.ToTable("Income", (string)null);
+                    b.ToTable("Income");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Expense", b =>
                 {
-                    b.HasOne("BlazorApp.Data.Models.Budget", "Budget")
+                    b.HasOne("BlazorApp.Data.Models.Budget", null)
                         .WithMany("Expenses")
-                        .HasForeignKey("BudgetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BudgetId");
 
-                    b.HasOne("BlazorApp.Data.Models.Income", "Income")
+                    b.HasOne("BlazorApp.Data.Models.Income", null)
                         .WithMany("Expenses")
                         .HasForeignKey("IncomeId");
-
-                    b.Navigation("Budget");
-
-                    b.Navigation("Income");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Income", b =>

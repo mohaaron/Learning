@@ -23,7 +23,16 @@ namespace BlazorApp.Data.Http.Repositories
 
 		public async Task<Budget> GetBudget(int id)
 		{
-			return await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + id);
+			Budget budget = null;
+			try
+			{
+				budget = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + id);
+			}
+			catch(Exception x)
+			{
+				x.ToString();
+			}
+			return budget;
 		}
 
 		public async Task<DbTaskResult> SaveBudget(Budget budget)

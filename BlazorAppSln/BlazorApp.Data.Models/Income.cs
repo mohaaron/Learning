@@ -16,16 +16,18 @@ namespace BlazorApp.Data.Models
 		[Required]
 		public decimal Amount { get; set; } = 0;
 
-		[Required()]
+		[Required]
 		[StringLength(200)]
 		public string Source { get; set; }
 
 		[Required]
-		public DateTime? PayDate { get; set; }
+		public DateTime? PayDate { get; set; } = DateTime.Now;
+
+		public Budget Budget { get; set; }
 
 		/// <summary>
-		/// Allow expenses to be grouped into paychecks
+		/// Expenses grouped into paychecks
 		/// </summary>
-		public ICollection<Expense> Expenses { get; set; }
+		//public ICollection<Expense> Expenses { get; set; }
 	}
 }

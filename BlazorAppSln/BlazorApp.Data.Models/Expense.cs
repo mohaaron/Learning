@@ -24,5 +24,13 @@ namespace BlazorApp.Data.Models
 		public string Notes { get; set; }
 
 		public DateTime? DueDate { get; set; }
+
+		public int BudgetId { get; set; }
+
+		[ForeignKey(nameof(BudgetId))]
+		[InverseProperty("Expenses")]
+		public Budget Budget { get; set; }
+
+		//public Income Income { get; set; }
 	}
 }

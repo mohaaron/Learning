@@ -11,8 +11,9 @@ namespace BlazorApp.Data.Models
 	public class Budget
 	{
 		[Key]
-		public int YearMonth { get; set; }
+		public int Id { get; set; }
 
+		[InverseProperty("Budget")]
 		public ICollection<Expense> Expenses { get; set; }
 
 		public ICollection<Income> Incomes { get; set; }
