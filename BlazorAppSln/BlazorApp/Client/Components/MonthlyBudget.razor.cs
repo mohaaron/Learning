@@ -41,17 +41,34 @@ namespace BlazorApp.Client.Components
 
         protected override Task OnInitializedAsync()
         {
-            title = Budget.YearMonth.ToString().Insert(4, "-");
+            title = Budget.Id.ToString().Insert(4, "-");
+
+            foreach(Expense expense in Budget.Expenses)
+			{
+                if (expense.Budget is not null)
+				{
+                    ICollection<Income> paychecks = expense.Budget.Incomes; // How do I populate budget?
+                }
+			}
+
+   //         foreach (Income income in Budget.Incomes)
+   //         {
+			//	foreach(Expense expense in income.Expenses)
+			//	{
+   //                 int id = expense.Id;
+			//	}                    
+			//}
+
             return base.OnInitializedAsync();
         }
 
         async Task AddExpense()
         {
-            var modal = Modal.Show<ExpenseForm>("Add Expense");
+			IModalReference modal = Modal.Show<ExpenseForm>("Add Expense");
             var win = await modal.Result;
             if (!win.Cancelled)
             {
-                var expense = (Expense)win.Data;
+				Expense expense = (Expense)win.Data;
                 await AddExpenseCallback.InvokeAsync(expense); // Send expense object to subscribers
                 var db = await repository.SaveBudget(Budget);
                 if (db.StatusCode == HttpStatusCode.OK)
@@ -62,9 +79,9 @@ namespace BlazorApp.Client.Components
             }
         }
 
-        async Task EditExpenseForm(Expense expense)
+        async Task EditExpense(Expense expense)
         {
-            var parameters = new ModalParameters();
+			ModalParameters parameters = new ModalParameters();
             parameters.Add("Expense", expense);
             var form = Modal.Show<ExpenseForm>("Edit Expense", parameters);
             var result = await form.Result;

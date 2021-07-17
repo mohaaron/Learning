@@ -25,8 +25,10 @@ namespace BlazorApp.Data.Repositories
 			{
 				return await context.Budget
 				.Include(e => e.Expenses)
+					//.ThenInclude(e => e.Budget) // The expression 'e.Budget' is invalid inside an 'Include' operation, since it does not represent a property access: 't => t.MyProperty'.
 				.Include(i => i.Incomes)
-				.SingleAsync(b => b.YearMonth == id);
+					//.ThenInclude(i => i.Expenses) // This works
+				.SingleAsync(b => b.Id == id);
 			}
 			catch(Exception x)
 			{

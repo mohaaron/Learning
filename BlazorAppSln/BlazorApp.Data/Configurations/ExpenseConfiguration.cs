@@ -13,6 +13,7 @@ namespace BlazorApp.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Expense> entity)
         {
+            //entity.HasOne<Budget>(e => e.Budget).WithMany(b => b.Expenses);
             entity.Property(p => p.DueDate).HasColumnType("date");
             entity.Property(p => p.Cost).HasPrecision(9, 2);
             //entity.HasQueryFilter(p => !p.SoftDeleted);

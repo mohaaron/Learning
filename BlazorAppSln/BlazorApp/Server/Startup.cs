@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using BlazorApp.Data.Repositories;
 using BlazorApp.Data.Repositories.Interfaces;
 using BlazorApp.Data;
+using System.Text.Json.Serialization;
 
 namespace BlazorApp.Server
 {
@@ -35,7 +36,10 @@ namespace BlazorApp.Server
 
 			services.AddTransient<IBudgetRepository, BudgetRepository>();
 
-			services.AddControllersWithViews();
+			//services.AddControllers().AddJsonOptions(x =>
+			//	x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+			services.AddControllersWithViews().AddJsonOptions(x =>
+				x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
 			services.AddRazorPages();
 		}
 

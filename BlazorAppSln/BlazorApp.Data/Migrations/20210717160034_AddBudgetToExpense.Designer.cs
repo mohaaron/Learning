@@ -3,14 +3,16 @@ using System;
 using BlazorApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlazorApp.Data.Migrations
 {
     [DbContext(typeof(BudgetContext))]
-    partial class BudgetContextModelSnapshot : ModelSnapshot
+    [Migration("20210717160034_AddBudgetToExpense")]
+    partial class AddBudgetToExpense
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +26,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Budget", (string)null);
+                    b.ToTable("Budget");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Debt", b =>
@@ -49,7 +51,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Debts", (string)null);
+                    b.ToTable("Debts");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Expense", b =>
@@ -86,7 +88,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasIndex("IncomeId");
 
-                    b.ToTable("Expenses", (string)null);
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Income", b =>
@@ -115,7 +117,7 @@ namespace BlazorApp.Data.Migrations
 
                     b.HasIndex("BudgetId");
 
-                    b.ToTable("Income", (string)null);
+                    b.ToTable("Income");
                 });
 
             modelBuilder.Entity("BlazorApp.Data.Models.Expense", b =>
