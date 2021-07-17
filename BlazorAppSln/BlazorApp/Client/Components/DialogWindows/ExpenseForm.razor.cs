@@ -43,8 +43,8 @@ namespace BlazorApp.Client.Components.DialogWindows
                 validate.Cost = expense.Cost;
                 validate.Notes = expense.Notes;
 
-                //Paychecks = expense.Budget.Incomes;
-            }
+				Paychecks = expense.Budget.Incomes;
+			}
 
             return base.OnInitializedAsync();
         }

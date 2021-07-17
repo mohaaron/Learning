@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Http.Repositories
@@ -26,7 +28,7 @@ namespace BlazorApp.Data.Http.Repositories
 			Budget budget = null;
 			try
 			{
-				budget = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + id);
+				budget = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + id, new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.Preserve });
 			}
 			catch(Exception x)
 			{
