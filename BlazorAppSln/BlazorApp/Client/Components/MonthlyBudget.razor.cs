@@ -29,47 +29,33 @@ namespace BlazorApp.Client.Components
 
         [Parameter] public Budget Budget { get; set; }
 
-        [Parameter] public EventCallback<Expense> AddExpenseCallback { get; set; }
-
-        [Parameter] public EventCallback<Expense> EditExpenseCallback { get; set; }
-
-        [Parameter] public EventCallback<HashSet<int>> DeleteExpenseCallback { get; set; }
-
         [CascadingParameter] public IModalService Modal { get; set; }
 
         private string title { get; set; }
 
         protected override Task OnInitializedAsync()
         {
+            //DateOnly date = DateOnly.FromDateTime(StartDate);
+            //int id = 20216;
+            //var Budget = await repository.GetBudget(id);
+
             title = Budget.Id.ToString().Insert(4, "-");
 
-            foreach(Expense expense in Budget.Expenses)
-			{
-                if (expense.Budget is not null)
-				{
-                    ICollection<Income> paychecks = expense.Budget.Incomes; // How do I populate budget?
-                }
-			}
-
-   //         foreach (Income income in Budget.Incomes)
-   //         {
-			//	foreach(Expense expense in income.Expenses)
-			//	{
-   //                 int id = expense.Id;
-			//	}                    
-			//}
-
-            return base.OnInitializedAsync();
-        }
+			return base.OnInitializedAsync();
+		}
 
         async Task AddExpense()
         {
-			IModalReference modal = Modal.Show<ExpenseForm>("Add Expense");
+            ModalParameters parameters = new ModalParameters();
+            parameters.Add("Paychecks", Budget.Incomes);
+
+            IModalReference modal = Modal.Show<ExpenseForm>("Add Expense", parameters);
             var win = await modal.Result;
+
             if (!win.Cancelled)
             {
 				Expense expense = (Expense)win.Data;
-                await AddExpenseCallback.InvokeAsync(expense); // Send expense object to subscribers
+
                 var db = await repository.SaveBudget(Budget);
                 if (db.StatusCode == HttpStatusCode.OK)
                 {
@@ -83,11 +69,14 @@ namespace BlazorApp.Client.Components
         {
 			ModalParameters parameters = new ModalParameters();
             parameters.Add("Expense", expense);
+            parameters.Add("Paychecks", Budget.Incomes);
+
             var form = Modal.Show<ExpenseForm>("Edit Expense", parameters);
-            var result = await form.Result;
-            if (!result.Cancelled)
+            var win = await form.Result;
+
+            if (!win.Cancelled)
             {
-                await EditExpenseCallback.InvokeAsync(expense); // Send expense object to subscribers
+                //
             }
         }
 
@@ -110,8 +99,6 @@ namespace BlazorApp.Client.Components
                     var expense = Budget.Expenses.SingleOrDefault(e => e.Id == id);
                     Budget.Expenses.Remove(expense);
                 }
-
-                await DeleteExpenseCallback.InvokeAsync(expensesToDelete);
             }
         }
     }

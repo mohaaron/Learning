@@ -2,14 +2,12 @@
 @using BlazorApp.Client.Components
 @using BlazorApp.UI.Library
 
-<h1>Budget Manager Home:</h1>
-<p>Let's try this again...'</p>
 @if (budget is null)
 {
     <div><p>Loading...</p></div>
 }
 else
 {
-    <MonthlyBudget Budget="@budget" AddExpenseCallback="@AddExpenseClick" EditExpenseCallback="@EditExpenseClick" />
+    <MonthlyBudget Budget="budget"/>
 }
 

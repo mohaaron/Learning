@@ -15,8 +15,6 @@
 
   @foreach (var expense in Budget.Expenses)
   {
-      @*var budget = expense.Budget;*@
-
     <div class="row">
       <div class="col-auto"><input type="checkbox" id="delete-@expense.Id" @onchange="(e) => ExpenseCheckChanged(e, expense.Id)" /></div>
       <div class="col-3"><a href="javascript:void(0)" @onclick="(() => EditExpense(expense))">@expense.ExpenseName</a></div>
