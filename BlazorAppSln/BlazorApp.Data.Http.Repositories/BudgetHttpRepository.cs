@@ -40,6 +40,7 @@ namespace BlazorApp.Data.Http.Repositories
 		public async Task<DbTaskResult> SaveBudget(Budget budget)
 		{
 			var resp = await httpClient.PutAsJsonAsync<Budget>("api/Budget", budget);
+
 			return new DbTaskResult
 			{
 				StatusCode = resp.StatusCode

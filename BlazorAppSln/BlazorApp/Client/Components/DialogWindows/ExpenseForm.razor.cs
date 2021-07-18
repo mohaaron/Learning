@@ -24,26 +24,27 @@ namespace BlazorApp.Client.Components.DialogWindows
 {
     public partial class ExpenseForm
     {
-        [CascadingParameter]
-        BlazoredModalInstance BlazoredModal { get; set; }
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
-        [Parameter]
-        public Expense expense { get; set; } = new();
+        [Parameter] public Expense Expense { get; set; } = new();
+
+        [Parameter] public ICollection<Income> Paychecks { get; set; }
+
         private Expense validate { get; set; } = new();
-
-        public ICollection<Income> Paychecks { get; set; }
 
         protected override Task OnInitializedAsync()
         {
-            if (expense is not null)
+            if (Expense is not null)
             {
                 // Load validation entity for edit
-                validate.Id = expense.Id;
-                validate.ExpenseName = expense.ExpenseName;
-                validate.Cost = expense.Cost;
-                validate.Notes = expense.Notes;
-
-				Paychecks = expense.Budget.Incomes;
+                validate.Id = Expense.Id;
+                validate.ExpenseName = Expense.ExpenseName;
+                validate.Cost = Expense.Cost;
+                validate.Notes = Expense.Notes;
+			}
+            else
+			{
+                // Get paychecks from ???
 			}
 
             return base.OnInitializedAsync();
@@ -51,16 +52,18 @@ namespace BlazorApp.Client.Components.DialogWindows
 
         protected override Task OnParametersSetAsync()
         {
+            // What do we use this for?
+
             return base.OnParametersSetAsync();
         }
 
         async Task Save()
         {
-            expense.Id = validate.Id;
-            expense.ExpenseName = validate.ExpenseName;
-            expense.Cost = validate.Cost;
-            expense.Notes = validate.Notes;
-            await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(expense));
+            Expense.Id = validate.Id;
+            Expense.ExpenseName = validate.ExpenseName;
+            Expense.Cost = validate.Cost;
+            Expense.Notes = validate.Notes;
+            await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(Expense));
         }
 
         async Task Cancel() => await BlazoredModal.CancelAsync();

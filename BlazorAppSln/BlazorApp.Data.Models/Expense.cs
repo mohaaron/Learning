@@ -27,6 +27,6 @@ namespace BlazorApp.Data.Models
 
 		public Budget Budget { get; set; }
 
-		//public Income Income { get; set; }
+		public Income Income { get; set; }
 	}
 }

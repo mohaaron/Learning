@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories
 {
-	public class BudgetRepository : AsyncRepositoryBase<BudgetContext>, IBudgetRepository
+	public class BudgetRepository : AsyncRepositoryBase<BudgetContext>, IBudgetRepository, IAsyncRepository
 	{
 		private readonly BudgetContext context;
 
@@ -25,9 +25,8 @@ namespace BlazorApp.Data.Repositories
 			{
 				return await context.Budget
 				.Include(e => e.Expenses)
-					//.ThenInclude(e => e.Budget) // Not needed to have a reference to Expense.Budget
 				.Include(i => i.Incomes)
-					.ThenInclude(i => i.Expenses) // This works
+					.ThenInclude(i => i.Expenses) // Expenses grouped by paycheck
 				.SingleAsync(b => b.Id == id);
 			}
 			catch(Exception x)
