@@ -45,7 +45,7 @@ namespace BlazorApp.Client.Components
 			return base.OnInitializedAsync();
 		}
 
-        async Task AddExpense()
+       async Task AddExpense()
         {
             ModalParameters parameters = new ModalParameters();
             parameters.Add("Paychecks", Budget.Incomes);
@@ -56,14 +56,14 @@ namespace BlazorApp.Client.Components
             if (!win.Cancelled)
             {
 				Expense expense = (Expense)win.Data;
-                Budget.Expenses.Add(expense);
-                //var db = await repository.SaveBudget(Budget);
-                //if (db.StatusCode == HttpStatusCode.OK)
-                //{
-                //    // Saved, now add saved expense to budget to update UI
-                //    Budget.Expenses.Add(expense);
-                //}
-            }
+                expense.Budget = Budget;
+				var db = await repository.Save(expense);
+				if (db.StatusCode == HttpStatusCode.OK)
+				{
+					// Saved, now add saved expense to budget to update UI
+					Budget.Expenses.Add(expense);
+				}
+			}
         }
 
         async Task EditExpense(Expense expense)

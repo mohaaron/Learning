@@ -6,13 +6,14 @@
   <div class="container">
     <div class="row">
       <div class="col-auto">
-        <label class="col-form-label">Paycheck</label>
+        <label class="col-form-label">Paycheck id: @paycheckId</label>
       </div>
       <div class="col-auto">
-          <InputSelect @bind-Value="Expense.Income.Id">
+          <InputSelect @bind-Value="paycheckId">
+              <option value="0">Remove</option>
               @foreach(Income paycheck in Paychecks)
               {
-                <option value="@paycheck.Id">@paycheck.PayDate.ToString()</option>
+                <option value="@paycheck.Id">@paycheck.PayDate?.ToString("MM/dd/yyyy")</option>
               }
           </InputSelect>
       </div>

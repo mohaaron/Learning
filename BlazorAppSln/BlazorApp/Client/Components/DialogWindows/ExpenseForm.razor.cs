@@ -35,19 +35,18 @@ namespace BlazorApp.Client.Components.DialogWindows
 
         private Expense validate { get; set; } = new();
 
+        private int paycheckId { get; set; } = 0;
+
         protected override Task OnInitializedAsync()
         {
             if (Expense is not null)
             {
                 // Load validation entity for edit
-                //validate.Id = Expense.Id;
-                //validate.Income = Expense.Income;
-                //validate.ExpenseName = Expense.ExpenseName;
-                //validate.Cost = Expense.Cost;
-                //validate.Notes = Expense.Notes;
-                //validate = Expense;
+                if (Expense.Income is not null)
+                    paycheckId = Expense.Income.Id;
+                
                 validate = EntityHelper.Clone<Expense>(Expense);
-			}
+			      }
 
             return base.OnInitializedAsync();
         }
@@ -61,17 +60,11 @@ namespace BlazorApp.Client.Components.DialogWindows
 
         async Task Save()
         {
-            //var db = await repository.Save(validate);
-            //if (db.StatusCode == HttpStatusCode.OK)
-            //{
-            //    // Saved, now add saved expense to budget to update UI
-            //    Expense.Id = validate.Id;
-            //    validate.Income = Expense.Income;
-            //    Expense.ExpenseName = validate.ExpenseName;
-            //    Expense.Cost = validate.Cost;
-            //    Expense.Notes = validate.Notes;
-            //}
-            //Expense = validate;
+            if (paycheckId == 0)
+                validate.Income = null;
+            else
+                validate.Income = Paychecks.Single(p => p.Id == paycheckId);
+          
             await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(validate));
         }
 
