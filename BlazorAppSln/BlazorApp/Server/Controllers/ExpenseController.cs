@@ -41,8 +41,14 @@ namespace BlazorApp.Server.Controllers
 
 		// POST api/<BudgetController>
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public async Task<ActionResult<HttpStatusCode>> Post([FromBody] Expense entity)
 		{
+			if (entity == null)
+				return BadRequest();
+
+			var result = await repo.Save(entity); // Maybe repo.Get(id); updated expense with related items
+
+			return result.StatusCode;
 		}
 
 		// PUT api/<BudgetController>/5

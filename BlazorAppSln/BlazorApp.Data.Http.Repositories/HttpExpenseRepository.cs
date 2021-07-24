@@ -41,7 +41,11 @@ namespace BlazorApp.Data.Http.Repositories
 
 		public async Task<DbTaskResult> Save(Expense entity)
 		{
-			var resp = await httpClient.PutAsJsonAsync<Expense>("api/Expense", entity, this.serializerOptions);
+			HttpResponseMessage resp;
+			if (entity.Id == 0)
+				resp = await httpClient.PostAsJsonAsync<Expense>("api/Expense", entity, this.serializerOptions);
+			else
+				resp = await httpClient.PutAsJsonAsync<Expense>("api/Expense", entity, this.serializerOptions);
 
 			return new DbTaskResult
 			{
