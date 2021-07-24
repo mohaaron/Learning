@@ -20,12 +20,13 @@ using BlazorApp.Data.Models;
 using BlazorApp.UI.Library;
 using BlazorApp.Data.Repositories.Interfaces;
 using BlazorApp.Client.Components.DialogWindows;
+using BlazorApp.Shared;
 
 namespace BlazorApp.Client.Components
 {
     public partial class MonthlyBudget
     {
-        [Inject] private IBudgetRepository repository { get; set; }
+        [Inject] private IExpenseRepository repository { get; set; }
 
         [Parameter] public Budget Budget { get; set; }
 
@@ -55,13 +56,13 @@ namespace BlazorApp.Client.Components
             if (!win.Cancelled)
             {
 				Expense expense = (Expense)win.Data;
-
-                var db = await repository.SaveBudget(Budget);
-                if (db.StatusCode == HttpStatusCode.OK)
-                {
-                    // Saved, now add saved expense to budget to update UI
-                    Budget.Expenses.Add(expense);
-                }
+                Budget.Expenses.Add(expense);
+                //var db = await repository.SaveBudget(Budget);
+                //if (db.StatusCode == HttpStatusCode.OK)
+                //{
+                //    // Saved, now add saved expense to budget to update UI
+                //    Budget.Expenses.Add(expense);
+                //}
             }
         }
 
@@ -76,7 +77,14 @@ namespace BlazorApp.Client.Components
 
             if (!win.Cancelled)
             {
-                //
+                Expense updatedExpense = (Expense)win.Data;
+
+                var db = await repository.Save(updatedExpense);
+				if (db.StatusCode == HttpStatusCode.OK)
+				{
+                    // After save update item in collection and UI
+                    Budget.Expenses.Swap<Expense>(expense, updatedExpense);
+                }
             }
         }
 

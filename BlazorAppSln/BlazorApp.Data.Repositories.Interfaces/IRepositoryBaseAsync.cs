@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 namespace BlazorApp.Data.Repositories.Interfaces
 {
     //public interface IAsyncRepository<TEntity> where TEntity : class
-    public interface IAsyncRepository
+    public interface IRepositoryBaseAsync
     {
         Task<TEntity> GetByIdAsync<TEntity>(int id) where TEntity : class;
         Task<TEntity> FirstOrDefaultAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class;
+        // TODO: Rename to FindAsync
         Task<IEnumerable<TEntity>> GetAsync<TEntity>(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

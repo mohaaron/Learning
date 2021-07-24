@@ -17,7 +17,7 @@ namespace BlazorApp.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             int id = 20216;
-			budget = await repository.GetBudget(id);
+			budget = await repository.Get(id);
 
 			//return await base.OnInitializedAsync();
 		}

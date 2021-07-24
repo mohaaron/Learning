@@ -21,7 +21,9 @@ namespace BlazorApp.Client
 			builder.RootComponents.Add<App>("#app");
 
 			builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-			builder.Services.AddScoped<IBudgetRepository, BudgetHttpRepository>();
+			builder.Services.AddScoped<IBudgetRepository, HttpBudgetRepository>();
+			builder.Services.AddScoped<IExpenseRepository, HttpExpenseRepository>();
+
 			builder.Services.AddBlazoredModal();
 
 			await builder.Build().RunAsync();

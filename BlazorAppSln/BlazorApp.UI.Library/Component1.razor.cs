@@ -10,6 +10,6 @@ namespace BlazorApp.UI.Library
 	public partial class Component1 : ComponentBase
 	{
 		[Parameter]
-		public string Name { get; set; }
+		public string Name { get; set; } = "Aaron Prohaska";
 	}
 }

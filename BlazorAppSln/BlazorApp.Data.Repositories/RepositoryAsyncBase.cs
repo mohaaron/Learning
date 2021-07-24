@@ -14,11 +14,11 @@ namespace BlazorApp.Data.Repositories
     // https://pradeeploganathan.com/architecture/repository-and-unit-of-work-pattern-asp-net-core-3-1/
     // https://www.freecodespot.com/blog/dotnet-core-repository-pattern/
     //public class BaseAsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : class
-    public abstract class AsyncRepositoryBase<TDbContext> : IAsyncRepository where TDbContext : DbContext
+    public abstract class RepositoryAsyncBase<TDbContext> : IRepositoryBaseAsync where TDbContext : DbContext
     {
 		internal readonly TDbContext context;
 
-		public AsyncRepositoryBase(TDbContext context)
+		public RepositoryAsyncBase(TDbContext context)
 		{
             this.context = context;
 		}

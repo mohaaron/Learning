@@ -10,24 +10,18 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories
 {
-	public class BudgetRepository : RepositoryAsyncBase<BudgetContext>, IBudgetRepository
+	public class ExpenseRepository : RepositoryAsyncBase<BudgetContext>, IExpenseRepository
 	{
-		//private readonly BudgetContext context;
-
-		public BudgetRepository(BudgetContext context) : base(context)
+		public ExpenseRepository(BudgetContext context) : base(context)
 		{
-			//this.context = context;
+			//
 		}
 
-		public async Task<Budget> Get(int id)
+		public async Task<Expense> Get(int id)
 		{
 			try
 			{
-				return await context.Budget
-				.Include(e => e.Expenses)
-				.Include(i => i.Incomes)
-					.ThenInclude(i => i.Expenses) // Expenses grouped by paycheck
-				.SingleAsync(b => b.Id == id);
+				return await this.GetByIdAsync<Expense>(id);
 			}
 			catch(Exception x)
 			{
@@ -37,12 +31,12 @@ namespace BlazorApp.Data.Repositories
 			return null;
 		}
 
-		public async Task<DbTaskResult> Save(Budget budget)
+		public async Task<DbTaskResult> Save(Expense entity)
 		{
 			var result = new DbTaskResult();
 			await Task.CompletedTask;
 
-			context.Update(budget);
+			context.Update(entity);
 			try
 			{
 				await context.SaveChangesAsync();
