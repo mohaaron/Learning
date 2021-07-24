@@ -44,9 +44,9 @@ namespace BlazorApp.Client.Components.DialogWindows
                 // Load validation entity for edit
                 if (Expense.Income is not null)
                     paycheckId = Expense.Income.Id;
-
+                
                 validate = EntityHelper.Clone<Expense>(Expense);
-			}
+			      }
 
             return base.OnInitializedAsync();
         }
@@ -64,7 +64,7 @@ namespace BlazorApp.Client.Components.DialogWindows
                 validate.Income = null;
             else
                 validate.Income = Paychecks.Single(p => p.Id == paycheckId);
-
+          
             await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(validate));
         }
 

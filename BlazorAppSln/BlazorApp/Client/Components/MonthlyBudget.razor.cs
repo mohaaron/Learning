@@ -45,7 +45,7 @@ namespace BlazorApp.Client.Components
 			return base.OnInitializedAsync();
 		}
 
-        async Task AddExpense()
+       async Task AddExpense()
         {
             ModalParameters parameters = new ModalParameters();
             parameters.Add("Paychecks", Budget.Incomes);
