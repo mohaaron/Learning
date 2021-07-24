@@ -19,11 +19,14 @@ using BlazorApp.Client.Shared;
 using BlazorApp.Data.Models;
 using BlazorApp.UI.Library;
 using BlazorApp.Data.Repositories.Interfaces;
+using BlazorApp.Shared;
 
 namespace BlazorApp.Client.Components.DialogWindows
 {
     public partial class ExpenseForm
     {
+        [Inject] private IExpenseRepository repository { get; set; }
+
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
         [Parameter] public Expense Expense { get; set; } = new();
@@ -37,14 +40,13 @@ namespace BlazorApp.Client.Components.DialogWindows
             if (Expense is not null)
             {
                 // Load validation entity for edit
-                validate.Id = Expense.Id;
-                validate.ExpenseName = Expense.ExpenseName;
-                validate.Cost = Expense.Cost;
-                validate.Notes = Expense.Notes;
-			}
-            else
-			{
-                // Get paychecks from ???
+                //validate.Id = Expense.Id;
+                //validate.Income = Expense.Income;
+                //validate.ExpenseName = Expense.ExpenseName;
+                //validate.Cost = Expense.Cost;
+                //validate.Notes = Expense.Notes;
+                //validate = Expense;
+                validate = EntityHelper.Clone<Expense>(Expense);
 			}
 
             return base.OnInitializedAsync();
@@ -59,11 +61,18 @@ namespace BlazorApp.Client.Components.DialogWindows
 
         async Task Save()
         {
-            Expense.Id = validate.Id;
-            Expense.ExpenseName = validate.ExpenseName;
-            Expense.Cost = validate.Cost;
-            Expense.Notes = validate.Notes;
-            await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(Expense));
+            //var db = await repository.Save(validate);
+            //if (db.StatusCode == HttpStatusCode.OK)
+            //{
+            //    // Saved, now add saved expense to budget to update UI
+            //    Expense.Id = validate.Id;
+            //    validate.Income = Expense.Income;
+            //    Expense.ExpenseName = validate.ExpenseName;
+            //    Expense.Cost = validate.Cost;
+            //    Expense.Notes = validate.Notes;
+            //}
+            //Expense = validate;
+            await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(validate));
         }
 
         async Task Cancel() => await BlazoredModal.CancelAsync();

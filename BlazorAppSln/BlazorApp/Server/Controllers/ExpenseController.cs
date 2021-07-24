@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -14,28 +15,28 @@ namespace BlazorApp.Server.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BudgetController : ControllerBase
+	public class ExpenseController : ControllerBase
 	{
-		private readonly IBudgetRepository repo;
+		private readonly IExpenseRepository repo;
 
-		public BudgetController(IBudgetRepository repo)
+		public ExpenseController(IExpenseRepository repo)
 		{
 			this.repo = repo;
 		}
 
 		// GET: api/<BudgetController>
 		[HttpGet]
-		public IEnumerable<string> Get()
+		public IEnumerable<string> Get(int pageNumber, int pageSize)
 		{
 			return new string[] { "value1", "value2" };
 		}
 
 		// GET api/<BudgetController>/5
 		[HttpGet("{id}")]
-		public async Task<Budget> Get(int id)
+		public async Task<Expense> Get(int id)
 		{
-			Budget budget = await repo.Get(id);
-			return budget;
+			Expense entity = await repo.Get(id);
+			return entity;
 		}
 
 		// POST api/<BudgetController>
@@ -45,15 +46,15 @@ namespace BlazorApp.Server.Controllers
 		}
 
 		// PUT api/<BudgetController>/5
-		[HttpPut("{id}")]
-		public async Task<ActionResult<Budget>> Put([FromBody] Budget budget)
+		[HttpPut]
+		public async Task<ActionResult<HttpStatusCode>> Put([FromBody] Expense entity)
 		{
-			if (budget == null)
+			if (entity == null)
 				return BadRequest();
 
-			await repo.Save(budget);
+			var result = await repo.Save(entity); // Maybe repo.Get(id); updated expense with related items
 
-			return Ok(budget);
+			return result.StatusCode;
 		}
 
 		// DELETE api/<BudgetController>/5

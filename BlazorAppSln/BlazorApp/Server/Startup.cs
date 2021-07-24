@@ -35,9 +35,8 @@ namespace BlazorApp.Server
 			x => x.MigrationsAssembly("BlazorApp.Data")));
 
 			services.AddTransient<IBudgetRepository, BudgetRepository>();
+			services.AddTransient<IExpenseRepository, ExpenseRepository>();
 
-			//services.AddControllers().AddJsonOptions(x =>
-			//	x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 			services.AddControllersWithViews().AddJsonOptions(options => {
 				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 				options.JsonSerializerOptions.PropertyNamingPolicy = null; // prevent camel case

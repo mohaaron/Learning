@@ -14,32 +14,34 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Http.Repositories
 {
-	public class BudgetHttpRepository : IBudgetRepository
+	public class HttpExpenseRepository : IExpenseRepository
 	{
 		private readonly HttpClient httpClient;
+		private readonly JsonSerializerOptions serializerOptions;
 
-		public BudgetHttpRepository(HttpClient httpClient)
+		public HttpExpenseRepository(HttpClient httpClient)
 		{
 			this.httpClient = httpClient;
+			this.serializerOptions = new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.Preserve };
 		}
 
-		public async Task<Budget> GetBudget(int id)
+		public async Task<Expense> Get(int id)
 		{
-			Budget budget = null;
+			Expense entity = null;
 			try
 			{
-				budget = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + id, new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.Preserve });
+				entity = await httpClient.GetFromJsonAsync<Expense>("api/Expense/" + id, this.serializerOptions);
 			}
 			catch(Exception x)
 			{
 				x.ToString();
 			}
-			return budget;
+			return entity;
 		}
 
-		public async Task<DbTaskResult> SaveBudget(Budget budget)
+		public async Task<DbTaskResult> Save(Expense entity)
 		{
-			var resp = await httpClient.PutAsJsonAsync<Budget>("api/Budget", budget);
+			var resp = await httpClient.PutAsJsonAsync<Expense>("api/Expense", entity, this.serializerOptions);
 
 			return new DbTaskResult
 			{
