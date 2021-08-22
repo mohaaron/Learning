@@ -29,5 +29,11 @@ namespace BlazorApp.Data.Models
 		/// Expenses grouped into paychecks
 		/// </summary>
 		public ICollection<Expense> Expenses { get; set; }
+
+		[NotMapped]
+		public decimal GetTotalExpenses => Expenses.Sum(e => e.Cost);
+
+		[NotMapped]
+		public decimal GetTotalAvailable => this.Amount - GetTotalExpenses;
 	}
 }
