@@ -22,5 +22,8 @@ namespace BlazorApp.Data.Models
 
 		[NotMapped]
 		public decimal GetTotalIncome => Incomes.Sum(s => s.Amount);
+
+		[NotMapped]
+		public decimal GetTotalAvailable => GetTotalIncome - GetTotalExpenses;
 	}
 }
