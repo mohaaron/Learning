@@ -26,7 +26,7 @@ namespace BlazorApp.Client.Components
 {
     public partial class MonthlyBudget
     {
-        [Inject] private IExpenseRepository repository { get; set; }
+        [Inject] private IHttpClientRepository<Expense> repository { get; set; }
 
         [Parameter] public Budget Budget { get; set; }
 
@@ -57,7 +57,7 @@ namespace BlazorApp.Client.Components
             {
 				Expense expense = (Expense)win.Data;
                 expense.Budget = Budget;
-				var db = await repository.Save(expense);
+				var db = await repository.Create(expense);
 				if (db.StatusCode == HttpStatusCode.OK)
 				{
 					// Saved, now add saved expense to budget to update UI
@@ -79,7 +79,7 @@ namespace BlazorApp.Client.Components
             {
                 Expense updatedExpense = (Expense)win.Data;
 
-                var db = await repository.Save(updatedExpense);
+                var db = await repository.Update(updatedExpense.Id, updatedExpense);
 				if (db.StatusCode == HttpStatusCode.OK)
 				{
                     // After save update item in collection and UI

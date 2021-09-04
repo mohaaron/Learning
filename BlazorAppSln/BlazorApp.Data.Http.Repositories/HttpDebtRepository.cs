@@ -1,22 +1,36 @@
 ﻿using BlazorApp.Data.Models;
 using BlazorApp.Data.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Http.Repositories
 {
-	public class HttpBudgetRepository : HttpRepositoryBase, IHttpClientRepository<Budget>
+	public class HttpDebtRepository : HttpRepositoryBase, IHttpClientRepository<Debt>
 	{
 		private bool disposedValue;
 
-		public HttpBudgetRepository(HttpClient httpClient) : base(httpClient)
+		public HttpDebtRepository(HttpClient httpClient) : base(httpClient)
 		{
 			//
 		}
 
-		public async Task<DbTaskResult> Create(Budget entity)
+		public async Task<DbTaskResult> Create(Debt entity)
 		{
-			HttpResponseMessage resp = await httpClient.PostAsJsonAsync<Budget>("api/Budget", entity, this.serializerOptions);
+			HttpResponseMessage resp = await httpClient.PostAsJsonAsync<Debt>("api/Debt", entity, this.serializerOptions);
 
+			//if (resp.IsSuccessStatusCode)
+			//	return entity;
+
+			//return null;
 			return new DbTaskResult
 			{
 				StatusCode = resp.StatusCode
@@ -25,7 +39,7 @@ namespace BlazorApp.Data.Http.Repositories
 
 		public async Task<DbTaskResult> Delete(int id)
 		{
-			HttpResponseMessage resp = await httpClient.DeleteAsync("api/Budget" + id);
+			HttpResponseMessage resp = await httpClient.DeleteAsync("api/Debt" + id);
 
 			return new DbTaskResult
 			{
@@ -33,24 +47,28 @@ namespace BlazorApp.Data.Http.Repositories
 			};
 		}
 
-		public async Task<Budget> Get(int id)
+		public async Task<Debt> Get(int id)
 		{
-			Budget entity = null;
+			Debt entity = null;
 			try
 			{
-				entity = await httpClient.GetFromJsonAsync<Budget>("api/Budget/" + id, this.serializerOptions);
+				entity = await httpClient.GetFromJsonAsync<Debt>("api/Debt/" + id, this.serializerOptions);
 			}
-			catch(Exception x)
+			catch (Exception x)
 			{
 				x.ToString();
 			}
 			return entity;
 		}
 
-		public async Task<DbTaskResult> Update(int? id, Budget entity)
+		public async Task<DbTaskResult> Update(int? id, Debt entity)
 		{
-			HttpResponseMessage resp = await httpClient.PutAsJsonAsync<Budget>("api/Budget", entity, this.serializerOptions);
+			HttpResponseMessage resp = await httpClient.PutAsJsonAsync<Debt>("api/Debt", entity, this.serializerOptions);
 
+			//if (resp.IsSuccessStatusCode)
+			//	return entity;
+
+			//return null;
 			return new DbTaskResult
 			{
 				StatusCode = resp.StatusCode
@@ -73,7 +91,7 @@ namespace BlazorApp.Data.Http.Repositories
 		}
 
 		// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-		// ~HttpBudgetRepository()
+		// ~HttpDebtRepository()
 		// {
 		//     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 		//     Dispose(disposing: false);

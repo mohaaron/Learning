@@ -1,16 +1,12 @@
 ﻿using BlazorApp.Data.Models;
 using BlazorApp.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorApp.Client.Pages
 {
 	public partial class Index
 	{
-		[Inject] private IBudgetRepository repository { get; set; }
+		[Inject] private IHttpClientRepository<Budget> repository { get; set; }
 
 		private Budget budget;
 

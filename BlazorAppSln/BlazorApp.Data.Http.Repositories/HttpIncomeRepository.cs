@@ -14,19 +14,19 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Http.Repositories
 {
-	public class HttpExpenseRepository : HttpRepositoryBase
+	public class HttpIncomeRepository : HttpRepositoryBase
 	{
-		public HttpExpenseRepository(HttpClient httpClient) : base(httpClient)
+		public HttpIncomeRepository(HttpClient httpClient) : base(httpClient)
 		{
 			//
 		}
 
-		public async Task<Expense> Get(int id)
+		public async Task<Income> Get(int id)
 		{
-			Expense entity = null;
+			Income entity = null;
 			try
 			{
-				entity = await httpClient.GetFromJsonAsync<Expense>("api/Expense/" + id, this.serializerOptions);
+				entity = await httpClient.GetFromJsonAsync<Income>("api/Expense/" + id, this.serializerOptions);
 			}
 			catch(Exception x)
 			{
@@ -35,13 +35,13 @@ namespace BlazorApp.Data.Http.Repositories
 			return entity;
 		}
 
-		public async Task<DbTaskResult> Save(Expense entity)
+		public async Task<DbTaskResult> Save(Income entity)
 		{
 			HttpResponseMessage resp;
 			if (entity.Id == 0)
-				resp = await httpClient.PostAsJsonAsync<Expense>("api/Expense", entity, this.serializerOptions);
+				resp = await httpClient.PostAsJsonAsync<Income>("api/Expense", entity, this.serializerOptions);
 			else
-				resp = await httpClient.PutAsJsonAsync<Expense>("api/Expense", entity, this.serializerOptions);
+				resp = await httpClient.PutAsJsonAsync<Income>("api/Expense", entity, this.serializerOptions);
 
 			return new DbTaskResult
 			{

@@ -17,20 +17,6 @@ namespace BlazorApp.Data.Repositories
 			//
 		}
 
-		public async Task<Expense> Get(int id)
-		{
-			try
-			{
-				return await this.GetByIdAsync<Expense>(id);
-			}
-			catch(Exception x)
-			{
-				x.ToString();
-			}
-
-			return null;
-		}
-
 		public async Task<DbTaskResult> Save(Expense entity)
 		{
 			var result = new DbTaskResult();

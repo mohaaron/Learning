@@ -25,7 +25,7 @@ namespace BlazorApp.Client.Components.DialogWindows
 {
     public partial class ExpenseForm
     {
-        [Inject] private IExpenseRepository repository { get; set; }
+        [Inject] private IHttpClientRepository<Expense> repository { get; set; }
 
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 

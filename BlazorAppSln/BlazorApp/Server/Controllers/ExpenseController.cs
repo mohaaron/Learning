@@ -35,7 +35,7 @@ namespace BlazorApp.Server.Controllers
 		[HttpGet("{id}")]
 		public async Task<Expense> Get(int id)
 		{
-			Expense entity = await repo.Get(id);
+			var entity = await repo.GetByIdAsync<Expense>(id);
 			return entity;
 		}
 
@@ -67,6 +67,7 @@ namespace BlazorApp.Server.Controllers
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{
+			repo.DeleteByIdAsync<Expense>(id);
 		}
 	}
 }

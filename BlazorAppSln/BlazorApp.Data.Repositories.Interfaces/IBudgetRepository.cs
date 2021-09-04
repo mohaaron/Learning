@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories.Interfaces
 {
-	public interface IBudgetRepository
+	public interface IBudgetRepository : IRepositoryBaseAsync
 	{
-		Task<Budget> Get(int id);
+		Task<Budget> GetGraphAsync(int id);
 		Task<DbTaskResult> Save(Budget budget);
 	}
 }
