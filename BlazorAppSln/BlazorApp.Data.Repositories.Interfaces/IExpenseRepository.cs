@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories.Interfaces
 {
-	public interface IExpenseRepository
+	public interface IExpenseRepository : IRepositoryBaseAsync
 	{
-		Task<Expense> Get(int id);
+		//Task<Expense> Get(int id);
 		Task<DbTaskResult> Save(Expense entity);
 	}
 }

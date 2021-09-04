@@ -5,88 +5,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Http.Repositories
 {
-	public class HttpRepository : HttpRepositoryBase//, IRepositoryBaseAsync
+	public class HttpRepository<T> : HttpClient, IHttpClientRepository<T> where T : class
     {
-		public HttpRepository(HttpClient httpClient) : base(httpClient)
+		private string basePath;
+		internal readonly JsonSerializerOptions serializerOptions;
+		private const string MEDIA_TYPE = "application/json";
+		private bool disposedValue;
+
+		public HttpRepository(string baseAddress, string basePath)
 		{
+			BaseAddress = new Uri(baseAddress);
+			this.basePath = basePath;
+			this.serializerOptions = new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.Preserve };
 		}
 
-        //public Task<int> DeleteAsync<TEntity>(TEntity entity) where TEntity : class
-        //{
-        //	throw new NotImplementedException();
-        //}
-
-        //public Task<int> DeleteByIdAsync<TEntity>(int id) where TEntity : class
-        //{
-        //	throw new NotImplementedException();
-        //}
-
-        //public Task<TEntity> FirstOrDefaultAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
-        //{
-        //	throw new NotImplementedException("Using a predicate from here doesn't make sense.");
-        //}
-
-        //public Task<IEnumerable<TEntity>> GetAsync<TEntity>(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "") where TEntity : class
-        //{
-        //	throw new NotImplementedException("Using a predicate from here doesn't make sense.");
-        //}
-
-        public async Task<Expense> Get(int id)
-        {
-            var response = await httpClient.GetAsync("api/expense/" + id);
-            var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ApplicationException(content);
-            }
-
-            var entity = JsonSerializer.Deserialize<Expense>(content, this.serializerOptions);
-            return entity;
-        }
-
-        public async Task<TEntity> GetByIdAsync<TEntity>(int id) where TEntity : class
+		public async Task<DbTaskResult> Create(T entity)
 		{
-			var httpContent = await httpClient.GetAsync("api/budget/" + id);
-			string jsonContent = httpContent.Content.ReadAsStringAsync().Result;
-			TEntity obj = JsonSerializer.Deserialize<TEntity>(jsonContent);
-			return obj;
+			HttpResponseMessage resp = await this.PostAsJsonAsync<T>(this.basePath, entity, this.serializerOptions);
+
+			return new DbTaskResult
+			{
+				StatusCode = resp.StatusCode
+			};
 		}
 
-		public async Task<T> GetJsonAsync<T>(int id)
-        {
-            var httpContent = await httpClient.GetAsync("api/budget/" + id);
-            string jsonContent = httpContent.Content.ReadAsStringAsync().Result;
-            T obj = JsonSerializer.Deserialize<T>(jsonContent);
-            httpContent.Dispose();
-            
-            return obj;
-        }
-        public async Task<HttpResponseMessage> PostJsonAsync<T>(string requestUri, T content)
-        {
-            string myContent = JsonSerializer.Serialize(content);
-            StringContent stringContent = new StringContent(myContent, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(requestUri, stringContent);
-            
-            return response;
-        }
-        public async Task<HttpResponseMessage> PutJsonAsync<T>(string requestUri, T content)
-        {
-            string myContent = JsonSerializer.Serialize(content);
-            StringContent stringContent = new StringContent(myContent, Encoding.UTF8, "application/json");
-            var response = await httpClient.PutAsync(requestUri, stringContent);
-            
-            return response;
-        }
-
-		public Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+		public async Task<DbTaskResult> Delete(int id)
 		{
-			throw new NotImplementedException();
+			HttpResponseMessage resp = await this.DeleteAsync(this.basePath + $"/{id}");
+
+			return new DbTaskResult
+			{
+				StatusCode = resp.StatusCode
+			};
+		}
+
+		public async Task<T> Get(int id)
+		{
+			try
+			{
+				return await this.GetFromJsonAsync<T>(this.basePath + $"/{id}", this.serializerOptions);
+			}
+			catch (Exception x)
+			{
+				x.ToString();
+			}
+
+			return null;
+		}
+
+		public async Task<DbTaskResult> Update(int? id, T entity)
+		{
+			HttpResponseMessage resp = await this.PutAsJsonAsync<T>(this.basePath + $"/{id}", entity, this.serializerOptions);
+
+			return new DbTaskResult
+			{
+				StatusCode = resp.StatusCode
+			};
 		}
 	}
 }
