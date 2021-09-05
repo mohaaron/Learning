@@ -47,7 +47,7 @@ namespace BlazorApp.Data.Http.Repositories
 			return entity;
 		}
 
-		public async Task<DbTaskResult> Update(int? id, Budget entity)
+		public async Task<DbTaskResult> Update(Budget entity)
 		{
 			HttpResponseMessage resp = await httpClient.PutAsJsonAsync<Budget>("api/Budget", entity, this.serializerOptions);
 

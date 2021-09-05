@@ -79,7 +79,7 @@ namespace BlazorApp.Client.Components
             {
                 Expense updatedExpense = (Expense)win.Data;
 
-                var db = await repository.Update(updatedExpense.Id, updatedExpense);
+                var db = await repository.Update(updatedExpense);
 				if (db.StatusCode == HttpStatusCode.OK)
 				{
                     // After save update item in collection and UI
