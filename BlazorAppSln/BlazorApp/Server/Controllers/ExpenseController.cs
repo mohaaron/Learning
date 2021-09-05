@@ -31,7 +31,7 @@ namespace BlazorApp.Server.Controllers
 			return new string[] { "value1", "value2" };
 		}
 
-		// GET api/<BudgetController>/5
+		// GET api/expense/5
 		[HttpGet("{id}")]
 		public async Task<Expense> Get(int id)
 		{
@@ -39,7 +39,8 @@ namespace BlazorApp.Server.Controllers
 			return entity;
 		}
 
-		// POST api/<BudgetController>
+		// POST api/expense
+		// Body: entity
 		[HttpPost]
 		public async Task<ActionResult<HttpStatusCode>> Post([FromBody] Expense entity)
 		{
@@ -51,7 +52,7 @@ namespace BlazorApp.Server.Controllers
 			return result.StatusCode;
 		}
 
-		// PUT api/<BudgetController>/5
+		// PUT api/expense/
 		[HttpPut]
 		public async Task<ActionResult<HttpStatusCode>> Put([FromBody] Expense entity)
 		{
@@ -63,7 +64,7 @@ namespace BlazorApp.Server.Controllers
 			return result.StatusCode;
 		}
 
-		// DELETE api/<BudgetController>/5
+		// DELETE api/expense/5
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{

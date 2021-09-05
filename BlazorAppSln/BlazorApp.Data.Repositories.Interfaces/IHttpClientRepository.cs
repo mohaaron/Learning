@@ -11,7 +11,7 @@ namespace BlazorApp.Data.Repositories.Interfaces
 		//Task<List<T>> GetPaged(int page, int pageSize);
 		Task<T> Get(int id);
 		Task<DbTaskResult> Create(T entity);
-		Task<DbTaskResult> Update(int? id, T entity);
+		Task<DbTaskResult> Update(T entity);
 		Task<DbTaskResult> Delete(int id);
 	}
 }

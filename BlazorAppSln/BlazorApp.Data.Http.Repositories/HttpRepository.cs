@@ -61,9 +61,9 @@ namespace BlazorApp.Data.Http.Repositories
 			return null;
 		}
 
-		public async Task<DbTaskResult> Update(int? id, T entity)
+		public async Task<DbTaskResult> Update(T entity)
 		{
-			HttpResponseMessage resp = await this.PutAsJsonAsync<T>(this.basePath + $"/{id}", entity, this.serializerOptions);
+			HttpResponseMessage resp = await this.PutAsJsonAsync<T>(this.basePath, entity, this.serializerOptions);
 
 			return new DbTaskResult
 			{
