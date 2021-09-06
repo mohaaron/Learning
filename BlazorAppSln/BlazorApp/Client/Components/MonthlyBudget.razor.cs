@@ -105,7 +105,9 @@ namespace BlazorApp.Client.Components
                 foreach (int id in expensesToDelete)
                 {
                     var expense = Budget.Expenses.SingleOrDefault(e => e.Id == id);
-                    Budget.Expenses.Remove(expense);
+                    var response = await repository.Delete(id);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                        Budget.Expenses.Remove(expense);
                 }
             }
         }
