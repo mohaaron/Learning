@@ -25,10 +25,10 @@ namespace BlazorApp.Client
 			//builder.Services.AddScoped<IBudgetRepository, HttpBudgetRepository>();
 			//builder.Services.AddScoped<IExpenseRepository, HttpExpenseRepository>();
 			string baseAddress = builder.HostEnvironment.BaseAddress;
-			builder.Services.AddScoped<IHttpClientRepository<Budget>>(r => new HttpRepository<Budget>(baseAddress, "api/budget"));
-			builder.Services.AddScoped<IHttpClientRepository<Expense>>(r => new HttpRepository<Expense>(baseAddress, "api/expense"));
-			builder.Services.AddScoped<IHttpClientRepository<Income>>(r => new HttpRepository<Income>(baseAddress, "api/income"));
-			builder.Services.AddScoped<IHttpClientRepository<Debt>>(r => new HttpRepository<Debt>(baseAddress, "api/debt"));
+			builder.Services.AddScoped<IHttpClientRepository<Budget>>(r => new HttpClientRepository<Budget>(baseAddress, "api/budget"));
+			builder.Services.AddScoped<IHttpClientRepository<Expense>>(r => new HttpClientRepository<Expense>(baseAddress, "api/expense"));
+			builder.Services.AddScoped<IHttpClientRepository<Income>>(r => new HttpClientRepository<Income>(baseAddress, "api/income"));
+			builder.Services.AddScoped<IHttpClientRepository<Debt>>(r => new HttpClientRepository<Debt>(baseAddress, "api/debt"));
 
 			builder.Services.AddBlazoredModal();
 

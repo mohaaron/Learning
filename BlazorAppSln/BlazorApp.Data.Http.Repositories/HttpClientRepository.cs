@@ -13,14 +13,19 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Http.Repositories
 {
-	public class HttpRepository<T> : HttpClient, IHttpClientRepository<T> where T : class
+	// https://jber595.medium.com/net-core-generic-rest-client-to-consume-services-369d0c8778c5
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	public class HttpClientRepository<T> : HttpClient, IHttpClientRepository<T> where T : class
     {
 		private string basePath;
 		internal readonly JsonSerializerOptions serializerOptions;
 		private const string MEDIA_TYPE = "application/json";
 		private bool disposedValue;
 
-		public HttpRepository(string baseAddress, string basePath)
+		public HttpClientRepository(string baseAddress, string basePath)
 		{
 			BaseAddress = new Uri(baseAddress);
 			this.basePath = basePath;
