@@ -1,7 +1,6 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31320.298
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Server", "BlazorApp\Server\BlazorApp.Server.csproj", "{FC381DCC-4E1F-407E-A3C4-9AFBC7A06A99}"
 EndProject
@@ -20,6 +19,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Data.Repositories.Interfaces", "BlazorApp.Data.Repositories.Interfaces\BlazorApp.Data.Repositories.Interfaces.csproj", "{48237B9A-9AC3-4817-A29A-3D3C45D7FB24}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Data.Http.Repositories", "BlazorApp.Data.Http.Repositories\BlazorApp.Data.Http.Repositories.csproj", "{333FB1AE-E3DA-499A-8071-F7426D3A10F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Services", "BlazorApp.Services\BlazorApp.Services.csproj", "{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +64,10 @@ Global
 		{333FB1AE-E3DA-499A-8071-F7426D3A10F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{333FB1AE-E3DA-499A-8071-F7426D3A10F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{333FB1AE-E3DA-499A-8071-F7426D3A10F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
