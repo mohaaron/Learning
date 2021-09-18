@@ -1,6 +1,7 @@
 ﻿using BlazorApp.Data.Models;
 using BlazorApp.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace BlazorApp.Client.Pages
 {
