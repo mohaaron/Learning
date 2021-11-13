@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data
 {
+    // https://stackoverflow.com/questions/52020107/how-to-add-the-same-column-to-all-entities-in-ef-core/52021425#52021425
     public class BudgetContext : DbContext
     {
         public BudgetContext(DbContextOptions<BudgetContext> options) : base(options)

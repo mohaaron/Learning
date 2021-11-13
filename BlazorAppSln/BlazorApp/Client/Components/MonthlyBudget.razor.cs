@@ -21,6 +21,8 @@ using BlazorApp.UI.Library;
 using BlazorApp.Data.Repositories.Interfaces;
 using BlazorApp.Client.Components.DialogWindows;
 using BlazorApp.Shared;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BlazorApp.Client.Components
 {
@@ -80,10 +82,12 @@ namespace BlazorApp.Client.Components
                 Expense updatedExpense = (Expense)win.Data;
 
                 var db = await repository.Update(updatedExpense);
-				if (db.StatusCode == HttpStatusCode.OK)
+                //var db = await repository.Update(updatedExpense, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, MaxDepth = 1 });
+                if (db.StatusCode == HttpStatusCode.OK)
 				{
                     // After save update item in collection and UI
                     Budget.Expenses.Swap<Expense>(expense, updatedExpense);
+                    //StateHasChanged();
                 }
             }
         }

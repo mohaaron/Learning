@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories.Interfaces
 {
-    //public interface IAsyncRepository<TEntity> where TEntity : class
+    //public interface IRepositoryBaseAsync<TEntity> where TEntity : class
     public interface IRepositoryBaseAsync
     {
         Task<TEntity> GetByIdAsync<TEntity>(int id) where TEntity : class;

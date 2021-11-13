@@ -1,5 +1,5 @@
 ﻿
-<EditForm Model="validate" OnValidSubmit="@Save">
+<EditForm Model="validateExpense" OnValidSubmit="@Save">
   <DataAnnotationsValidator />
   <ValidationSummary />
 
@@ -22,25 +22,25 @@
       <div class="col-auto">
         <label class="col-form-label">Name</label>
       </div>
-      <div class="col-auto"><InputText @bind-Value="validate.ExpenseName" /></div>
+      <div class="col-auto"><InputText @bind-Value="validateExpense.ExpenseName" /></div>
     </div>
     <div class="row">
       <div class="col-auto">
         <label class="col-form-label">Cost</label>
       </div>
-      <div class="col-auto"><InputNumber @bind-Value="validate.Cost" /></div>
+      <div class="col-auto"><InputNumber @bind-Value="validateExpense.Cost" /></div>
     </div>
     <div class="row">
       <div class="col-auto">
         <label class="col-form-label">Due Date</label>
       </div>
-      <div class="col-auto"><InputDate @bind-Value="validate.DueDate" /></div>
+      <div class="col-auto"><InputDate @bind-Value="validateExpense.DueDate" /></div>
     </div>
     <div class="row">
       <div class="col-auto">
         <label class="col-form-label">Notes</label>
       </div>
-      <div class="col-auto"><InputText @bind-Value="validate.Notes" /></div>
+      <div class="col-auto"><InputText @bind-Value="validateExpense.Notes" /></div>
     </div>
     <div class="row">
         <div class="col-auto"><button class="form-control">Save</button></div>
