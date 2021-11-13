@@ -33,7 +33,7 @@ namespace BlazorApp.Client.Components.DialogWindows
 
         [Parameter] public ICollection<Income> Paychecks { get; set; }
 
-        private Expense validate { get; set; } = new();
+        private Expense validateExpense { get; set; } = new();
 
         private int paycheckId { get; set; } = 0;
 
@@ -44,28 +44,36 @@ namespace BlazorApp.Client.Components.DialogWindows
                 // Load validation entity for edit
                 if (Expense.Income is not null)
                     paycheckId = Expense.Income.Id;
-                
-                validate = EntityHelper.Clone<Expense>(Expense);
-			      }
+
+                //validateExpense = EntityHelper.Clone<Expense>(Expense);
+                validateExpense = new Expense
+                {
+                    Cost = Expense.Cost,
+                    DueDate = Expense.DueDate,
+                    ExpenseName = Expense.ExpenseName,
+                    Id = Expense.Id,
+                    Notes = Expense.Notes
+                };
+			}
 
             return base.OnInitializedAsync();
         }
 
         protected override Task OnParametersSetAsync()
         {
-            // What do we use this for?
-
             return base.OnParametersSetAsync();
         }
 
         async Task Save()
         {
             if (paycheckId == 0)
-                validate.Income = null;
+            {
+                validateExpense.Income = null;
+            }
             else
-                validate.Income = Paychecks.Single(p => p.Id == paycheckId);
+                validateExpense.Income = Paychecks.Single(p => p.Id == paycheckId);
           
-            await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(validate));
+            await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(validateExpense));
         }
 
         async Task Cancel() => await BlazoredModal.CancelAsync();

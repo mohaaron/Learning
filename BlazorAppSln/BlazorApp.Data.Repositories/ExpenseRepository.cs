@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories
 {
-	public class ExpenseRepository : RepositoryAsyncBase<BudgetContext>, IExpenseRepository
+	public class ExpenseRepository : RepositoryBaseAsync<BudgetContext>, IExpenseRepository
 	{
 		public ExpenseRepository(BudgetContext context) : base(context)
 		{
@@ -20,13 +20,14 @@ namespace BlazorApp.Data.Repositories
 		public async Task<DbTaskResult> Save(Expense entity)
 		{
 			var result = new DbTaskResult();
-			await Task.CompletedTask;
 
 			context.Update(entity);
 			try
 			{
-				await context.SaveChangesAsync();
-				result.StatusCode = HttpStatusCode.OK;
+				int count = await context.SaveChangesAsync();
+				if (count > 0)
+					result.StatusCode = HttpStatusCode.OK;
+				result.StatusCode = HttpStatusCode.NotModified;
 			}
 			catch(Exception x)
 			{

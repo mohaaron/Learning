@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories
 {
-	public class IncomeRepository : RepositoryAsyncBase<BudgetContext>, IIncomeRepository
+	public class IncomeRepository : RepositoryBaseAsync<BudgetContext>, IIncomeRepository
 	{
 		public IncomeRepository(BudgetContext context) : base(context)
 		{

@@ -23,7 +23,7 @@ namespace BlazorApp.Data.Http.Repositories
 		private string basePath;
 		internal readonly JsonSerializerOptions serializerOptions;
 		private const string MEDIA_TYPE = "application/json";
-		private bool disposedValue;
+		//private bool disposedValue;
 
 		public HttpClientRepository(string baseAddress, string basePath)
 		{
@@ -69,6 +69,16 @@ namespace BlazorApp.Data.Http.Repositories
 		public async Task<DbTaskResult> Update(T entity)
 		{
 			HttpResponseMessage resp = await this.PutAsJsonAsync<T>(this.basePath, entity, this.serializerOptions);
+
+			return new DbTaskResult
+			{
+				StatusCode = resp.StatusCode
+			};
+		}
+
+		public async Task<DbTaskResult> Update(T entity, JsonSerializerOptions jsonOptions)
+		{
+			HttpResponseMessage resp = await this.PutAsJsonAsync<T>(this.basePath, entity, jsonOptions);
 
 			return new DbTaskResult
 			{

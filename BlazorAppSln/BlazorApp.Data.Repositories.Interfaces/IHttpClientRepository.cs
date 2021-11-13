@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BlazorApp.Data.Repositories.Interfaces
@@ -12,6 +13,7 @@ namespace BlazorApp.Data.Repositories.Interfaces
 		Task<T> Get(int id);
 		Task<DbTaskResult> Create(T entity);
 		Task<DbTaskResult> Update(T entity);
+		Task<DbTaskResult> Update(T entity, JsonSerializerOptions jsonOptions);
 		Task<DbTaskResult> Delete(int id);
 	}
 }

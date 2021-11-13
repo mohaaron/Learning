@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="HttpBudgetRepository.cs" />
+    <Compile Remove="HttpDebtRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BlazorApp.Data.Repositories.Interfaces\BlazorApp.Data.Repositories.Interfaces.csproj" />
   </ItemGroup>
 

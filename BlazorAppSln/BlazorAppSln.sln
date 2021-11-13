@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Data.Repositories
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Data.Http.Repositories", "BlazorApp.Data.Http.Repositories\BlazorApp.Data.Http.Repositories.csproj", "{333FB1AE-E3DA-499A-8071-F7426D3A10F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Services", "BlazorApp.Services\BlazorApp.Services.csproj", "{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Services", "BlazorApp.Services\BlazorApp.Services.csproj", "{DBC1A11D-3DAD-4438-B791-E210E28EF4D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
