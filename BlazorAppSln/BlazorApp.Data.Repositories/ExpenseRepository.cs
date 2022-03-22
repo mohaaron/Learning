@@ -17,25 +17,25 @@ namespace BlazorApp.Data.Repositories
 			//
 		}
 
-		public async Task<DbTaskResult> Save(Expense entity)
-		{
-			var result = new DbTaskResult();
+		//public async Task<DbTaskResult> Save(Expense entity)
+		//{
+		//	var result = new DbTaskResult();
 
-			context.Update(entity);
-			try
-			{
-				int count = await context.SaveChangesAsync();
-				if (count > 0)
-					result.StatusCode = HttpStatusCode.OK;
-				result.StatusCode = HttpStatusCode.NotModified;
-			}
-			catch(Exception x)
-			{
-				result.StatusCode = HttpStatusCode.InternalServerError;
-				result.Message = x.Message;
-			}
+		//	context.Update(entity);
+		//	try
+		//	{
+		//		int count = await context.SaveChangesAsync();
+		//		if (count > 0)
+		//			result.StatusCode = HttpStatusCode.OK;
+		//		result.StatusCode = HttpStatusCode.NotModified;
+		//	}
+		//	catch(Exception x)
+		//	{
+		//		result.StatusCode = HttpStatusCode.InternalServerError;
+		//		result.Message = x.Message;
+		//	}
 
-			return result;
-		}
+		//	return result;
+		//}
 	}
 }

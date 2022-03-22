@@ -66,22 +66,22 @@ namespace BlazorApp.Data.Repositories
         //    //
         //}
 
-        //public Task Insert(TEntity entity)
-        //{
-        //    context.AddAsync(entity);
-        //    return context.SaveChangesAsync();
-        //}
-
-        public Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<int> InsertAsync<TEntity>(TEntity entity)
         {
-            context.Update(entity);
-            return context.SaveChangesAsync();
+            context.Add(entity);
+            return await context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<int> UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+        {
+            context.Update(entity);
+            return await context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteAsync<TEntity>(TEntity entity) where TEntity : class
         {
             context.Remove(entity);
-            return context.SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteByIdAsync<TEntity>(int id) where TEntity : class
@@ -89,6 +89,18 @@ namespace BlazorApp.Data.Repositories
             TEntity entity = await context.Set<TEntity>().FindAsync(id);
             context.Remove(entity);
             return await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public TEntity ShallowCopy<TEntity>(TEntity entity)
+        {
+            // https://codereview.stackexchange.com/questions/125149/cloning-entity-framework-entities
+            return (TEntity)context.Entry(entity).CurrentValues.ToObject();
         }
     }
 }

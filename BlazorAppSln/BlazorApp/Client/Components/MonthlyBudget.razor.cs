@@ -28,7 +28,8 @@ namespace BlazorApp.Client.Components
 {
     public partial class MonthlyBudget
     {
-        [Inject] private IHttpClientRepository<Expense> repository { get; set; }
+        [Inject] private IHttpClientRepository<Budget> budgetRepository { get; set; }
+        [Inject] private IHttpClientRepository<Expense> expenseRepository { get; set; }
 
         [Parameter] public Budget Budget { get; set; }
 
@@ -59,7 +60,7 @@ namespace BlazorApp.Client.Components
             {
 				Expense expense = (Expense)win.Data;
                 expense.Budget = Budget;
-				var db = await repository.Create(expense);
+				var db = await expenseRepository.Create(expense);
 				if (db.StatusCode == HttpStatusCode.OK)
 				{
 					// Saved, now add saved expense to budget to update UI
@@ -81,13 +82,13 @@ namespace BlazorApp.Client.Components
             {
                 Expense updatedExpense = (Expense)win.Data;
 
-                var db = await repository.Update(updatedExpense);
+                var db = await expenseRepository.Update(updatedExpense);
                 //var db = await repository.Update(updatedExpense, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, MaxDepth = 1 });
                 if (db.StatusCode == HttpStatusCode.OK)
 				{
                     // After save update item in collection and UI
                     Budget.Expenses.Swap<Expense>(expense, updatedExpense);
-                    //StateHasChanged();
+                    Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }
@@ -109,7 +110,7 @@ namespace BlazorApp.Client.Components
                 foreach (int id in expensesToDelete)
                 {
                     var expense = Budget.Expenses.SingleOrDefault(e => e.Id == id);
-                    var response = await repository.Delete(id);
+                    var response = await expenseRepository.Delete(id);
                     if (response.StatusCode == HttpStatusCode.OK)
                         Budget.Expenses.Remove(expense);
                 }

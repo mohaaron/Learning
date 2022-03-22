@@ -18,8 +18,8 @@ namespace BlazorApp.Data.Repositories.Interfaces
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "") where TEntity : class;
         //Task<IEnumerable<TEntity>> GetWithRawSql(string query, params object[] parameters);
-        //Task Insert(TEntity entity);
-        Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
+        Task<int> InsertAsync<TEntity>(TEntity entity);
+        Task<int> UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
         Task<int> DeleteAsync<TEntity>(TEntity entity) where TEntity : class;
         Task<int> DeleteByIdAsync<TEntity>(int id) where TEntity : class;
     }

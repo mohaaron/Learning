@@ -31,7 +31,7 @@ namespace BlazorApp.Server
 			//services.AddDbContext<BudgetContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 			string fileName = @"\expenses.db";
 			string dbFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + fileName;
-			services.AddDbContext<BudgetContext>(options => 
+			services.AddDbContextFactory<BudgetContext>(options => 
 				options
 					.UseSqlite("Data Source=" + dbFilePath, x => x.MigrationsAssembly("BlazorApp.Data"))
 					.EnableSensitiveDataLogging()

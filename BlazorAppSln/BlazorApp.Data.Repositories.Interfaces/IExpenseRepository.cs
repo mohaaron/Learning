@@ -6,7 +6,6 @@ namespace BlazorApp.Data.Repositories.Interfaces
 {
 	public interface IExpenseRepository : IRepositoryBaseAsync
 	{
-		//Task<Expense> Get(int id);
-		Task<DbTaskResult> Save(Expense entity);
+		//Task<DbTaskResult> Save(Expense entity);
 	}
 }
