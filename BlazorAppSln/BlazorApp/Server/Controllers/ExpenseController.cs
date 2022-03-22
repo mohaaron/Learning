@@ -17,11 +17,11 @@ namespace BlazorApp.Server.Controllers
 	[ApiController]
 	public class ExpenseController : ControllerBase
 	{
-		private readonly IExpenseRepository repo;
+		private readonly IExpenseRepository expenseRepository;
 
 		public ExpenseController(IExpenseRepository repo)
 		{
-			this.repo = repo;
+			this.expenseRepository = repo;
 		}
 
 		// GET: api/<BudgetController>
@@ -35,7 +35,7 @@ namespace BlazorApp.Server.Controllers
 		[HttpGet("{id}")]
 		public async Task<Expense> Get(int id)
 		{
-			var entity = await repo.GetByIdAsync<Expense>(id);
+			var entity = await expenseRepository.GetByIdAsync<Expense>(id);
 			return entity;
 		}
 
@@ -47,9 +47,9 @@ namespace BlazorApp.Server.Controllers
 			if (entity == null)
 				return BadRequest();
 
-			var result = await repo.Save(entity); // Maybe repo.Get(id); updated expense with related items
+			int count = await expenseRepository.InsertAsync(entity);
 
-			return result.StatusCode;
+			return Ok();
 		}
 
 		// PUT api/expense/
@@ -59,16 +59,17 @@ namespace BlazorApp.Server.Controllers
 			if (entity == null)
 				return BadRequest();
 
-			var result = await repo.Save(entity); // Maybe repo.Get(id); updated expense with related items
+			int count = await expenseRepository.UpdateAsync(entity);
 
-			return result.StatusCode;
+			return Ok();
 		}
 
 		// DELETE api/expense/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public async Task<ActionResult<HttpStatusCode>> Delete(int id)
 		{
-			repo.DeleteByIdAsync<Expense>(id);
+			int count = await expenseRepository.DeleteByIdAsync<Expense>(id);
+			return Ok();
 		}
 	}
 }

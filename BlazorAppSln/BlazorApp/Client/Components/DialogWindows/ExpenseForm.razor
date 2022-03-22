@@ -1,4 +1,5 @@
-﻿
+﻿@inherits BlazorApp.Client.Components.BudgetComponentBase
+
 <EditForm Model="validateExpense" OnValidSubmit="@Save">
   <DataAnnotationsValidator />
   <ValidationSummary />
