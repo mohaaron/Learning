@@ -30,6 +30,7 @@ namespace BlazorApp.Client.Components
     {
         [Inject] private IHttpClientRepository<Budget> budgetRepository { get; set; }
         [Inject] private IHttpClientRepository<Expense> expenseRepository { get; set; }
+        [Inject] private IHttpClientRepository<Income> incomeRepository { get; set; }
 
         [Parameter] public Budget Budget { get; set; }
 
@@ -58,20 +59,18 @@ namespace BlazorApp.Client.Components
 
             if (!win.Cancelled)
             {
-				Expense expense = (Expense)win.Data;
+				        Expense expense = (Expense)win.Data;
                 expense.Budget = Budget;
+              
 				var db = await expenseRepository.Create(expense);
 				if (db.StatusCode == HttpStatusCode.OK)
 				{
-					// Saved, now add saved expense to budget to update UI
-					Budget.Expenses.Add(expense);
-				}
-			}
+                Budget = await budgetRepository.Get(Budget.Id);
         }
 
         async Task EditExpense(Expense expense)
         {
-			ModalParameters parameters = new ModalParameters();
+			      ModalParameters parameters = new ModalParameters();
             parameters.Add("Expense", expense);
             parameters.Add("Paychecks", Budget.Incomes);
 
@@ -83,19 +82,15 @@ namespace BlazorApp.Client.Components
                 Expense updatedExpense = (Expense)win.Data;
 
                 var db = await expenseRepository.Update(updatedExpense);
-                //var db = await repository.Update(updatedExpense, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, MaxDepth = 1 });
                 if (db.StatusCode == HttpStatusCode.OK)
-				{
-                    // After save update item in collection and UI
-                    Budget.Expenses.Swap<Expense>(expense, updatedExpense);
+				        {
                     Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }
 
         HashSet<int> expensesToDelete = new HashSet<int>();
-
-		void ExpenseCheckChanged(ChangeEventArgs e, int id)
+		    void ExpenseCheckChanged(ChangeEventArgs e, int id)
         {
             if (expensesToDelete.Contains(id))
                 expensesToDelete.Remove(id);
@@ -110,9 +105,52 @@ namespace BlazorApp.Client.Components
                 foreach (int id in expensesToDelete)
                 {
                     var expense = Budget.Expenses.SingleOrDefault(e => e.Id == id);
+                  
                     var response = await expenseRepository.Delete(id);
                     if (response.StatusCode == HttpStatusCode.OK)
-                        Budget.Expenses.Remove(expense);
+                        Budget = await budgetRepository.Get(Budget.Id);
+                }
+            }
+        }
+
+        async Task EditIncome(Income income)
+        {
+            ModalParameters parameters = new ModalParameters();
+            parameters.Add("Income", income);
+            parameters.Add("Paychecks", Budget.Incomes);
+
+            var form = Modal.Show<IncomeForm>("Edit Income", parameters);
+            var win = await form.Result;
+
+            if (!win.Cancelled)
+            {
+                Income updatedIncome = (Income)win.Data;
+
+                var db = await incomeRepository.Update(updatedIncome);
+                if (db.StatusCode == HttpStatusCode.OK)
+                {
+                    Budget = await budgetRepository.Get(Budget.Id);
+                }
+            }
+        }
+
+        async Task EditIncome(Income income)
+        {
+            ModalParameters parameters = new ModalParameters();
+            parameters.Add("Income", income);
+            parameters.Add("Paychecks", Budget.Incomes);
+
+            var form = Modal.Show<IncomeForm>("Edit Income", parameters);
+            var win = await form.Result;
+
+            if (!win.Cancelled)
+            {
+                Income updatedIncome = (Income)win.Data;
+
+                var db = await incomeRepository.Update(updatedIncome);
+                if (db.StatusCode == HttpStatusCode.OK)
+                {
+                    Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }

@@ -39,6 +39,8 @@ namespace BlazorApp.Server
 
 			services.AddTransient<IBudgetRepository, BudgetRepository>();
 			services.AddTransient<IExpenseRepository, ExpenseRepository>();
+			services.AddTransient<IIncomeRepository, IncomeRepository>();
+			services.AddTransient<IDebtRepository, DebtRepository>();
 
 			services.AddControllersWithViews().AddJsonOptions(options => {
 				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;

@@ -31,7 +31,7 @@ namespace BlazorApp.Data.Models
 		public ICollection<Expense> Expenses { get; set; }
 
 		[NotMapped]
-		public decimal GetTotalExpenses => Expenses.Sum(e => e.Cost);
+		public decimal GetTotalExpenses => Expenses is not null ? Expenses.Sum(e => e.Cost) : 0;
 
 		[NotMapped]
 		public decimal GetTotalAvailable => this.Amount - GetTotalExpenses;
