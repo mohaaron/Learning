@@ -39,7 +39,14 @@ namespace BlazorApp.Client.Components.DialogWindows
         {
             if (Income is not null)
             {
-                validate = EntityHelper.Clone<Income>(Income);
+                //validate = EntityHelper.Clone<Income>(Income);
+                validate = new Income
+                {
+                    Id = Income.Id,
+                    Amount = Income.Amount,
+                    PayDate = Income.PayDate,
+                    Source = Income.Source,
+                };
 			}
 
             return base.OnInitializedAsync();

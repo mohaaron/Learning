@@ -30,6 +30,7 @@ namespace BlazorApp.Client.Components
     {
         [Inject] private IHttpClientRepository<Budget> budgetRepository { get; set; }
         [Inject] private IHttpClientRepository<Expense> expenseRepository { get; set; }
+        [Inject] private IHttpClientRepository<Income> incomeRepository { get; set; }
 
         [Parameter] public Budget Budget { get; set; }
 
@@ -113,6 +114,27 @@ namespace BlazorApp.Client.Components
                     var response = await expenseRepository.Delete(id);
                     if (response.StatusCode == HttpStatusCode.OK)
                         Budget.Expenses.Remove(expense);
+                }
+            }
+        }
+
+        async Task EditIncome(Income income)
+        {
+            ModalParameters parameters = new ModalParameters();
+            parameters.Add("Income", income);
+            parameters.Add("Paychecks", Budget.Incomes);
+
+            var form = Modal.Show<IncomeForm>("Edit Income", parameters);
+            var win = await form.Result;
+
+            if (!win.Cancelled)
+            {
+                Income updatedIncome = (Income)win.Data;
+
+                var db = await incomeRepository.Update(updatedIncome);
+                if (db.StatusCode == HttpStatusCode.OK)
+                {
+                    Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }
