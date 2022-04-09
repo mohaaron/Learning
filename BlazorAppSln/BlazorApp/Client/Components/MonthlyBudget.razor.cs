@@ -59,20 +59,18 @@ namespace BlazorApp.Client.Components
 
             if (!win.Cancelled)
             {
-				Expense expense = (Expense)win.Data;
+				        Expense expense = (Expense)win.Data;
                 expense.Budget = Budget;
-
+              
 				var db = await expenseRepository.Create(expense);
 				if (db.StatusCode == HttpStatusCode.OK)
 				{
-                    Budget = await budgetRepository.Get(Budget.Id);
-                }
-			}
+                Budget = await budgetRepository.Get(Budget.Id);
         }
 
         async Task EditExpense(Expense expense)
         {
-			ModalParameters parameters = new ModalParameters();
+			      ModalParameters parameters = new ModalParameters();
             parameters.Add("Expense", expense);
             parameters.Add("Paychecks", Budget.Incomes);
 
@@ -85,15 +83,14 @@ namespace BlazorApp.Client.Components
 
                 var db = await expenseRepository.Update(updatedExpense);
                 if (db.StatusCode == HttpStatusCode.OK)
-				{
+				        {
                     Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }
 
         HashSet<int> expensesToDelete = new HashSet<int>();
-
-		void ExpenseCheckChanged(ChangeEventArgs e, int id)
+		    void ExpenseCheckChanged(ChangeEventArgs e, int id)
         {
             if (expensesToDelete.Contains(id))
                 expensesToDelete.Remove(id);
@@ -108,7 +105,7 @@ namespace BlazorApp.Client.Components
                 foreach (int id in expensesToDelete)
                 {
                     var expense = Budget.Expenses.SingleOrDefault(e => e.Id == id);
-
+                  
                     var response = await expenseRepository.Delete(id);
                     if (response.StatusCode == HttpStatusCode.OK)
                         Budget = await budgetRepository.Get(Budget.Id);
