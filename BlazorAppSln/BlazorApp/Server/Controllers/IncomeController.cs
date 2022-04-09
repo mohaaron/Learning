@@ -51,7 +51,7 @@ public class IncomeController : ControllerBase
 	}
 
 	// PUT api/<IncomeController>/5
-	[HttpPut("{id}")]
+	[HttpPut]
 	public async Task<ActionResult<HttpStatusCode>> Put([FromBody] Income entity)
 	{
 		if (entity == null)

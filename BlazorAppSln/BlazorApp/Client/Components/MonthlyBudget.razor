@@ -16,7 +16,7 @@
     @foreach (var paycheck in Budget.Incomes)
   {
       <div class="row">
-          <div class="col-auto">Paycheck: @paycheck.PayDate?.ToString("MM/dd/yyyy")</div>
+          <div class="col-auto"><a href="javascript:void(0)" @onclick="(() => EditIncome(paycheck))">@paycheck.Source</a>: @paycheck.PayDate?.ToString("MM/dd/yyyy")</div>
           <div class="col-auto">Amount: @paycheck.Amount.ToString("C")</div>
           <div class="col-auto">Expenses: @paycheck.GetTotalExpenses.ToString("C")</div>
           <div class="col">Available: @paycheck.GetTotalAvailable.ToString("C")</div>
