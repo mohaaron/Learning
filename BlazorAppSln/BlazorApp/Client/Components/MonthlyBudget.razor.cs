@@ -59,18 +59,20 @@ namespace BlazorApp.Client.Components
 
             if (!win.Cancelled)
             {
-				        Expense expense = (Expense)win.Data;
+                Expense expense = (Expense)win.Data;
                 expense.Budget = Budget;
-              
-				var db = await expenseRepository.Create(expense);
-				if (db.StatusCode == HttpStatusCode.OK)
-				{
-                Budget = await budgetRepository.Get(Budget.Id);
+
+                var db = await expenseRepository.Create(expense);
+                if (db.StatusCode == HttpStatusCode.OK)
+                {
+                    Budget = await budgetRepository.Get(Budget.Id);
+                }
+            }
         }
 
         async Task EditExpense(Expense expense)
         {
-			      ModalParameters parameters = new ModalParameters();
+			ModalParameters parameters = new ModalParameters();
             parameters.Add("Expense", expense);
             parameters.Add("Paychecks", Budget.Incomes);
 
@@ -83,14 +85,14 @@ namespace BlazorApp.Client.Components
 
                 var db = await expenseRepository.Update(updatedExpense);
                 if (db.StatusCode == HttpStatusCode.OK)
-				        {
+				{
                     Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }
 
         HashSet<int> expensesToDelete = new HashSet<int>();
-		    void ExpenseCheckChanged(ChangeEventArgs e, int id)
+		void ExpenseCheckChanged(ChangeEventArgs e, int id)
         {
             if (expensesToDelete.Contains(id))
                 expensesToDelete.Remove(id);
@@ -109,27 +111,6 @@ namespace BlazorApp.Client.Components
                     var response = await expenseRepository.Delete(id);
                     if (response.StatusCode == HttpStatusCode.OK)
                         Budget = await budgetRepository.Get(Budget.Id);
-                }
-            }
-        }
-
-        async Task EditIncome(Income income)
-        {
-            ModalParameters parameters = new ModalParameters();
-            parameters.Add("Income", income);
-            parameters.Add("Paychecks", Budget.Incomes);
-
-            var form = Modal.Show<IncomeForm>("Edit Income", parameters);
-            var win = await form.Result;
-
-            if (!win.Cancelled)
-            {
-                Income updatedIncome = (Income)win.Data;
-
-                var db = await incomeRepository.Update(updatedIncome);
-                if (db.StatusCode == HttpStatusCode.OK)
-                {
-                    Budget = await budgetRepository.Get(Budget.Id);
                 }
             }
         }
