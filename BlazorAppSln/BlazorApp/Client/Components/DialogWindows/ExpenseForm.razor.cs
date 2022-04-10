@@ -78,7 +78,7 @@ namespace BlazorApp.Client.Components.DialogWindows
                 validateExpense.IncomeId = null;
             }
             else
-                validateExpense.Income = Paychecks.Single(p => p.Id == paycheckId);
+                validateExpense.IncomeId = paycheckId;
           
             await BlazoredModal.CloseAsync(ModalResult.Ok<Expense>(validateExpense));
         }
