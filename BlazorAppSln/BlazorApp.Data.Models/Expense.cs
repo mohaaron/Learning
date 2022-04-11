@@ -25,6 +25,7 @@ namespace BlazorApp.Data.Models
 
 		public DateTime? DueDate { get; set; }
 
+		public int BudgetId { get; set; }
 		public Budget Budget { get; set; }
 
 		public int? IncomeId { get; set; }

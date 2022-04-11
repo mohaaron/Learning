@@ -28,6 +28,7 @@ namespace BlazorApp.Client
 			builder.Services.AddScoped<IHttpClientRepository<Income>>(r => new HttpClientRepository<Income>(baseAddress, "api/income"));
 			builder.Services.AddScoped<IHttpClientRepository<Debt>>(r => new HttpClientRepository<Debt>(baseAddress, "api/debt"));
 
+			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			builder.Services.AddBlazoredModal();
 
 			await builder.Build().RunAsync();

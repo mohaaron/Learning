@@ -60,7 +60,7 @@ namespace BlazorApp.Client.Components
             if (!win.Cancelled)
             {
                 Expense expense = (Expense)win.Data;
-                expense.Budget = Budget;
+                expense.BudgetId = Budget.Id;
 
                 var db = await expenseRepository.Create(expense);
                 if (db.StatusCode == HttpStatusCode.OK)

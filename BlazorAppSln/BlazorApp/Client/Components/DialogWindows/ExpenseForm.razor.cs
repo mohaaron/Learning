@@ -20,12 +20,15 @@ using BlazorApp.Data.Models;
 using BlazorApp.UI.Library;
 using BlazorApp.Data.Repositories.Interfaces;
 using BlazorApp.Shared;
+using AutoMapper;
 
 namespace BlazorApp.Client.Components.DialogWindows
 {
     public partial class ExpenseForm
     {
         [Inject] private IHttpClientRepository<Expense> expenseRepository { get; set; }
+
+        [Inject] private IMapper mapper { get; set; }
 
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
@@ -43,25 +46,8 @@ namespace BlazorApp.Client.Components.DialogWindows
 
             if (Expense is not null)
             {
-                // Get expense from db with related income
-                //validateExpense = await expenseRepository.Get(Expense.Id);
-                // Now, are we still editing the expense in the UI?
-
-                // Load validation entity for edit
-                if (Expense.Income is not null)
-                    paycheckId = Expense.Income.Id;
-
-                //validateExpense = EntityHelper.Clone<Expense>(Expense);
-
-                validateExpense = new Expense
-                {
-                    Cost = Expense.Cost,
-                    DueDate = Expense.DueDate,
-                    ExpenseName = Expense.ExpenseName,
-                    Id = Expense.Id,
-                    IncomeId = Expense.IncomeId,
-                    Notes = Expense.Notes
-                };
+                paycheckId = Expense.IncomeId ? null : 0;
+                validateExpense = mapper.Map<Expense>(Expense);
             }
         }
 
@@ -73,10 +59,7 @@ namespace BlazorApp.Client.Components.DialogWindows
         async Task Save()
         {
             if (paycheckId == 0)
-            {
-                //validateExpense.Income = null;
                 validateExpense.IncomeId = null;
-            }
             else
                 validateExpense.IncomeId = paycheckId;
           
