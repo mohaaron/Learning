@@ -46,7 +46,7 @@ namespace BlazorApp.Client.Components.DialogWindows
 
             if (Expense is not null)
             {
-                paycheckId = Expense.IncomeId ? null : 0;
+                paycheckId = Expense.IncomeId != null ? Expense.IncomeId.Value : 0;
                 validateExpense = mapper.Map<Expense>(Expense);
             }
         }
